@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/budget_summary_layout">
+
+    <TextView
+        android:id="@+id/total_balance_remaining_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/total_balance_remaining"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/total_balance_remaining_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        android:text="@string/float_string"
+        android:textColor="@color/green"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/total_balance_remaining_text_view"/>
+
+    <TextView
+        android:id="@+id/monthly_balance_remaining_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/monthly_balance_remaining"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/total_balance_remaining_number"/>
+
+    <TextView
+        android:id="@+id/monthly_balance_remaining_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        android:text="@string/float_string"
+        android:textColor="@color/red"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/monthly_balance_remaining_text_view"/>
+    <TextView
+        android:id="@+id/monthly_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/monthly_breakdown"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/monthly_balance_remaining_number"/>
+
+    <ImageView
+        android:id="@+id/chart_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/monthly_text_view"
+    />
+
+    <Button
+        android:id="@+id/summary_trends_button"
+        android:text="@string/overspending_breakdowns_and_trends"
+        style="@style/LongButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/chart_view"
+        />
+
+    <Button
+        android:id="@+id/summary_history_button"
+        android:text="@string/review_spending_history"
+        style="@style/LongButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/summary_trends_button"
+        />
+
+    <Button
+        android:id="@+id/summary_edit_button"
+        android:text="@string/edit_budget"
+        style="@style/LongButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/summary_history_button"
+        />
+</RelativeLayout>

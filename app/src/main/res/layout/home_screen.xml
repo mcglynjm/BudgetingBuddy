@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/home_layout">
+
+    <TextView
+        android:id="@+id/welcome_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_user"
+        android:layout_centerHorizontal="true"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/pie_chart_image_view"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_centerInParent="true"/>
+
+            <TextView
+                android:id="@+id/click_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/click_chart_for_budget_summary"
+                android:layout_alignTop="@id/pie_chart_image_view"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="50dp"
+                />
+
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/home_edit_budget_button"
+            android:text="@string/edit_budget"
+            style="@style/LongButton"
+            />
+
+        <Button
+            android:id="@+id/home_input_transaction_button"
+            android:text="@string/input_transaction"
+            style="@style/LongButton"
+            />
+
+        <Button
+            android:id="@+id/home_budget_history_button"
+            android:text="@string/budget_history_and_projections"
+            style="@style/LongButton"
+            />
+
+        <Button
+            android:id="@+id/home_user_settings_button"
+            android:text="@string/user_settings"
+            style="@style/LongButton"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

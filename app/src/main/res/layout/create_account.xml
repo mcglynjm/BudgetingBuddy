@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/create_account_layout">
+
+    <TextView
+        android:id="@+id/create_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_account"
+        android:padding="20dp"
+        android:textColor="@color/black"
+        android:textSize="48sp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:id="@+id/email_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/email_colon"
+        android:padding="20dp"
+        android:layout_below="@id/create_text_view"
+        android:textColor="@color/black"
+        />
+
+    <EditText
+        android:id="@+id/email_edit_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        android:padding="20dp"
+        android:layout_below="@id/email_text_view"
+        android:textColor="@color/gray"
+        />
+
+    <TextView
+        android:id="@+id/new_username_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/username_colon"
+        android:padding="20dp"
+        android:layout_below="@id/email_edit_text_view"
+        android:textColor="@color/black"
+        />
+
+    <EditText
+        android:id="@+id/new_username_edit_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:padding="20dp"
+        android:layout_below="@id/new_username_text_view"
+        android:textColor="@color/gray"
+        />
+
+    <TextView
+        android:id="@+id/new_password_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/password_colon"
+        android:padding="20dp"
+        android:layout_below="@id/new_username_edit_text_view"
+        android:textColor="@color/black"
+        />
+
+    <EditText
+        android:id="@+id/new_password_edit_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        android:padding="20dp"
+        android:layout_below="@id/new_password_text_view"
+        android:textColor="@color/gray"
+        />
+
+    <TextView
+        android:id="@+id/create_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_account"
+        android:padding="20dp"
+        android:layout_below="@id/new_password_edit_text_view"
+        android:textColor="@color/teal_700"
+        />
+</RelativeLayout>

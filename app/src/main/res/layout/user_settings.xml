@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            >
+
+        <ImageView
+            android:id="@+id/style_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/edit_button"
+            android:layout_marginEnd="25dp"
+            />
+
+        <TextView
+            android:id="@+id/style_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/style"
+            android:layout_toRightOf="@id/style_view"
+            android:textSize="20sp"
+            />
+
+            <TextView
+                android:id="@+id/viewing_budget_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/viewing_budget"
+                android:layout_toRightOf="@id/style_view"
+                android:layout_alignBottom="@id/style_view"
+                android:layout_marginEnd="25dp"
+                />
+
+            <ImageButton
+                android:id="@+id/dollar_based_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/edit_button"
+                android:layout_toRightOf="@id/viewing_budget_text_view"
+                android:layout_marginBottom="5dp"
+                />
+
+            <TextView
+                android:id="@+id/dollar_based_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dollar_based"
+                android:layout_below="@id/dollar_based_button"
+                />
+
+            <ImageButton
+                android:id="@+id/percentile_based_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/edit_button"
+                android:layout_toRightOf="@id/dollar_based_text_view"
+                android:layout_marginBottom="5dp"
+                />
+
+            <TextView
+                android:id="@+id/percentile_based_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/percentile_based"
+                android:layout_below="@id/percentile_based_button"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
