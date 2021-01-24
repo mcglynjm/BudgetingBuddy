@@ -20,7 +20,7 @@ class SummaryFragment : Fragment() {
         // Inflate the layout for this fragment
         val fragmentViewer = theContext as FragmentViewer
 
-        val view = inflater.inflate(R.layout.budgey_summary, container, false)
+        val view = inflater.inflate(R.layout.budget_summary, container, false)
 
         view.summary_trends_button.setOnClickListener{
             fragmentViewer.viewFragment(TrendsFragment())
