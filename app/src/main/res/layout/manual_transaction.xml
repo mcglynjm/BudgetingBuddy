@@ -141,5 +141,31 @@
                 />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_below="@id/renew_col2"
+            android:layout_toLeftOf="@id/ok_button"
+            android:textSize="20sp"
+            android:textColor="@color/teal_700"
+            />
+
+        <TextView
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"
+            android:layout_below="@id/renew_col2"
+            android:layout_alignParentRight="true"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/teal_700"
+
+            />
+
     </RelativeLayout>
 </LinearLayout>

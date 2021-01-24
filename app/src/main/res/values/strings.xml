@@ -43,5 +43,7 @@
     <string name="viewing_budget">Viewing Budget</string>
     <string name="dollar_based">Dollar Based</string>
     <string name="percentile_based">Percentile Based</string>
+    <string name="cancel">cancel</string>
+    <string name="ok">ok</string>
 
 </resources>

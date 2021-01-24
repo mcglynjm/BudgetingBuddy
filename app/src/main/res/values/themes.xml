@@ -23,4 +23,7 @@
         <item name="android:background">@color/gray</item>
     </style>
 
+    <style name="Theme.BudgetingBuddy.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.BudgetingBuddy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
