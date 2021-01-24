@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.home_screen.view.*
 
-class BudgetHistoryFragment  : Fragment() {
+class TransactionHistoryFragment  : Fragment() {
     lateinit var theContext: Context
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,

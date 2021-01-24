@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.user_settings.view.*
 
 class UserSettingsFragment : Fragment()  {
     lateinit var theContext: Context

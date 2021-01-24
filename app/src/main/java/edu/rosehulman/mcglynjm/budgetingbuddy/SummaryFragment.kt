@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.budget_summary.view.*
 import kotlinx.android.synthetic.main.budgey_summary.view.*
 import kotlinx.android.synthetic.main.manual_transaction.*
 import kotlinx.android.synthetic.main.manual_transaction.view.*
@@ -23,7 +24,7 @@ class SummaryFragment : Fragment() {
         val view = inflater.inflate(R.layout.budget_summary, container, false)
 
         view.summary_trends_button.setOnClickListener{
-            fragmentViewer.viewFragment(TrendsFragment())
+            //fragmentViewer.viewFragment(TrendsFragment())
         }
 
         view.summary_history_button.setOnClickListener{

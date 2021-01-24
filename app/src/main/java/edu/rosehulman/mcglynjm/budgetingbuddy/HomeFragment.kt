@@ -43,7 +43,7 @@ class HomeFragment  : Fragment() {
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }
-        view.home_budget_history_button.setOnClickListener {fragmentViewer.viewFragment(BudgetHistoryFragment())}
+        view.home_budget_history_button.setOnClickListener {fragmentViewer.viewFragment(TransactionHistoryFragment())}
         view.home_user_settings_button.setOnClickListener {fragmentViewer.viewFragment(UserSettingsFragment())}
 
         return view
