@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.budget_summary.view.*
-import kotlinx.android.synthetic.main.budgey_summary.view.*
 import kotlinx.android.synthetic.main.manual_transaction.*
 import kotlinx.android.synthetic.main.manual_transaction.view.*
 import java.lang.RuntimeException
@@ -19,7 +18,7 @@ class SummaryFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val fragmentViewer = theContext as FragmentViewer
+        val fragmentViewer = context as FragmentViewer
 
         val view = inflater.inflate(R.layout.budget_summary, container, false)
 
@@ -28,11 +27,11 @@ class SummaryFragment : Fragment() {
         }
 
         view.summary_history_button.setOnClickListener{
-            fragmentViewer.viewFragment(TransactionHistoryFragment())
+            fragmentViewer.onButtonHit(context!!.getString(R.string.history))
         }
 
         view.summary_edit_button.setOnClickListener{
-            fragmentViewer.viewFragment(EditBudgetFragment())
+            fragmentViewer.onButtonHit(context!!.getString(R.string.edit))
         }
         //TODO
         //set chart graphic here (after reaearch into libraries)

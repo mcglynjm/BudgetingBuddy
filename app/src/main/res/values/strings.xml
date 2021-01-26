@@ -45,5 +45,11 @@
     <string name="percentile_based">Percentile Based</string>
     <string name="cancel">cancel</string>
     <string name="ok">ok</string>
+    <string name="scan">scan</string>
+    <string name="manual">manual</string>
+    <string name="history">history</string>
+    <string name="settings">settings</string>
+    <string name="home">home</string>
+    <string name="edit">edit</string>
 
 </resources>

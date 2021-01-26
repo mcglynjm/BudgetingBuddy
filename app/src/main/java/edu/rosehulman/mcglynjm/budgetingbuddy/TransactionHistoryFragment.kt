@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.home_screen.view.*
+import java.lang.RuntimeException
 
 class TransactionHistoryFragment  : Fragment() {
     lateinit var theContext: Context
@@ -16,9 +17,19 @@ class TransactionHistoryFragment  : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val fragmentViewer = theContext as FragmentViewer
+        val fragmentViewer = context as FragmentViewer
         val view = inflater.inflate(R.layout.transaction_history, container, false)
 
         return view
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentViewer) {
+            theContext = context
+        }
+        else {
+            throw RuntimeException(context.toString() + " must implement FragmentViewer")
+        }
     }
 }

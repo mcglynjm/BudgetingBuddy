@@ -22,11 +22,11 @@ class ManualTransactionFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val fragmentViewer = theContext as FragmentViewer
+        val fragmentViewer = context as FragmentViewer
         val view = inflater.inflate(R.layout.manual_transaction, container, false)
         //TODO
         //make viewFragment in mainactivity and make it an interface method
-        view.cancel_button.setOnClickListener{fragmentViewer.viewFragment(HomeFragment())}
+        view.cancel_button.setOnClickListener{fragmentViewer.onButtonHit(context!!.getString(R.string.home))}
 
         view.ok_button.setOnClickListener {
             makeNewTransaction(amount_edit_text_view.text.toString(), type_edit_text_view.text.toString(), item_edit_text_view.text.toString(), calcRenews(it.renew_layout))
