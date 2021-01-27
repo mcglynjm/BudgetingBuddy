@@ -69,76 +69,12 @@
         android:textColor="@color/gray"
         />
 
-    <TextView
-        android:id="@+id/renew_texT_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/renews"
-        android:padding="20dp"
-        android:textColor="@color/black"
-        />
 
     <RelativeLayout
         android:id="@+id/renew_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/renew_col1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-            <RadioButton
-                android:id="@+id/month_button"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:text="@string/_1_month"
-                />
 
-            <RadioButton
-                android:id="@+id/month_button4"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:text="@string/_4_months"
-                />
-
-            <RadioButton
-                android:id="@+id/year_button"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:text="@string/_1_year"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/renew_col2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_toRightOf="@id/renew_col1">
-
-            <RadioButton
-                android:id="@+id/month_button3"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:text="@string/_3_months"
-                />
-
-            <RadioButton
-                android:id="@+id/month_button6"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:text="@string/_6_months"
-                />
-
-            <RadioButton
-                android:id="@+id/never_button"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:text="@string/never"
-                />
 
         </LinearLayout>
 

@@ -16,7 +16,7 @@ class ScanTransactionFragment  : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val fragmentViewer = context as FragmentViewer
-        val view = inflater.inflate(R.layout.manual_transaction, container, false)
+        val view = inflater.inflate(R.layout.scan_transaction, container, false)
 
         return view
     }

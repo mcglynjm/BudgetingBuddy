@@ -18,9 +18,10 @@ class MainActivity : AppCompatActivity(), FragmentViewer {
         if (fragment != null) {
             val ft = supportFragmentManager.beginTransaction()
             ft.replace(R.id.frame_layout, fragment)
-            while (supportFragmentManager.backStackEntryCount > 0) {
-                supportFragmentManager.popBackStackImmediate()
-            }
+//            while (supportFragmentManager.backStackEntryCount > 0) {
+//                supportFragmentManager.popBackStackImmediate()
+//            }
+            ft.addToBackStack("home")
             ft.commit()
         }
     }
@@ -30,7 +31,6 @@ class MainActivity : AppCompatActivity(), FragmentViewer {
         if (type.equals(R.string.scan)) {
             Log.d(Constants.TAG, "Making $type fragment")
             viewFragment(ScanTransactionFragment())
-
         } else if (type.equals(getString(R.string.manual))) {
             viewFragment(ManualTransactionFragment())
             Log.d(Constants.TAG, "Making $type fragment")
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), FragmentViewer {
             viewFragment(HomeFragment())
             Log.d(Constants.TAG, "Making $type fragment")
         } else if(type.equals(getString(R.string.edit))) {
-           // viewFragment(EditBudgetFragment())
+           //viewFragment(EditBudgetFragment())
         }
     }
 }
