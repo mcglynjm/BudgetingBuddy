@@ -5,23 +5,24 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 
-class MainActivity : AppCompatActivity(), FragmentViewer {
+class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //setSupportActionBar(findViewById(R.id.toolbar))
-        viewFragment(HomeFragment())
+        viewFragment(HomeFragment(), getString(R.string.home))
     }
 
 
-    fun viewFragment(fragment: Fragment) {
+    fun viewFragment(fragment: Fragment, name: String) {
         if (fragment != null) {
             val ft = supportFragmentManager.beginTransaction()
             ft.replace(R.id.frame_layout, fragment)
 //            while (supportFragmentManager.backStackEntryCount > 0) {
 //                supportFragmentManager.popBackStackImmediate()
 //            }
-            ft.addToBackStack("home")
+//            ft.addToBackStack(name)
+            ft.addToBackStack(getString(R.string.home))
             ft.commit()
         }
     }
@@ -30,22 +31,31 @@ class MainActivity : AppCompatActivity(), FragmentViewer {
         Log.d(Constants.TAG, "BUTTON $type hit")
         if (type.equals(R.string.scan)) {
             Log.d(Constants.TAG, "Making $type fragment")
-            viewFragment(ScanTransactionFragment())
+            viewFragment(ScanTransactionFragment(), type)
         } else if (type.equals(getString(R.string.manual))) {
-            viewFragment(ManualTransactionFragment())
+            viewFragment(ManualTransactionFragment(), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if (type.equals(getString(R.string.history))) {
-            viewFragment(TransactionHistoryFragment())
+            viewFragment(TransactionHistoryFragment(), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if (type.equals(getString(R.string.settings))) {
-            viewFragment(UserSettingsFragment())
+            viewFragment(UserSettingsFragment(), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if(type.equals(getString(R.string.home))) {
-            viewFragment(HomeFragment())
+            viewFragment(HomeFragment(), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if(type.equals(getString(R.string.edit))) {
-           //viewFragment(EditBudgetFragment())
+           //viewFragment(EditBudgetFragment(), type)
+        } else if(type.equals(getString(R.string.summary))) {
+           viewFragment(SummaryFragment(), type)
+            Log.d(Constants.TAG, "Making $type fragment")
         }
+    }
+
+    override fun onTransactionSelected(transaction: ManualTransaction) {
+        TODO("Not yet implemented")
+        //for details in transaction history fragment
+
     }
 }
 

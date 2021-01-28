@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.budget_summary.view.*
 import kotlinx.android.synthetic.main.home_screen.view.*
 import java.lang.RuntimeException
 
@@ -48,6 +49,9 @@ class HomeFragment  : Fragment() {
         view.home_budget_history_button.setOnClickListener {fragmentViewer.onButtonHit(context!!.getString(R.string.history))}
         view.home_user_settings_button.setOnClickListener {fragmentViewer.onButtonHit(context!!.getString(R.string.settings))}
 
+        view.pie_chart_image_view.setOnClickListener {
+            fragmentViewer.onButtonHit(context!!.getString(R.string.summary))
+        }
         return view
     }
 

@@ -12,14 +12,14 @@
         android:text="@string/input_manual_transaction"
         android:padding="20dp"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/amount_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/amount_colon"
-        android:padding="20dp"
+        android:padding="10dp"
         android:textColor="@color/black"
         />
 
@@ -28,8 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dollar_sign"
-        android:padding="20dp"
-        android:inputType="number"
+        android:padding="10dp"
+        android:inputType="numberDecimal"
         android:textColor="@color/gray"
         />
 
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/type_colon"
-        android:padding="20dp"
+        android:padding="10dp"
         android:textColor="@color/black"
         />
 
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/type"
-        android:padding="20dp"
+        android:padding="10dp"
         android:textColor="@color/gray"
         />
 
@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/items_optional_colon"
-        android:padding="20dp"
+        android:padding="10dp"
         android:textColor="@color/black"
         />
 
@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/items"
-        android:padding="20dp"
+        android:padding="10dp"
         android:textColor="@color/gray"
         />
 
@@ -74,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/renews"
-        android:padding="20dp"
+        android:padding="10dp"
         android:textColor="@color/black"
         />
 
@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="10dp">
             <RadioButton
                 android:id="@+id/month_button"
                 android:layout_width="150dp"
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:padding="10dp"
             android:layout_toRightOf="@id/renew_col1">
 
             <RadioButton

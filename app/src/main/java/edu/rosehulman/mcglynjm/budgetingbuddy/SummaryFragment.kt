@@ -36,7 +36,6 @@ class SummaryFragment : Fragment() {
         //TODO
         //set chart graphic here (after reaearch into libraries)
         //view.chart_view.setImageBitmap()
-
         return view
     }
 

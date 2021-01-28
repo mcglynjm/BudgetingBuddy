@@ -25,11 +25,11 @@ class TransactionHistoryFragment  : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is FragmentViewer) {
+        if (context is TransactionSelect) {
             theContext = context
         }
         else {
-            throw RuntimeException(context.toString() + " must implement FragmentViewer")
+            throw RuntimeException(context.toString() + " must implement TransactionSelect")
         }
     }
 }

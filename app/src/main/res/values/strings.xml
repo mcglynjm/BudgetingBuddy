@@ -51,5 +51,6 @@
     <string name="settings">settings</string>
     <string name="home">home</string>
     <string name="edit">edit</string>
+    <string name="summary">summary</string>
 
 </resources>

@@ -62,6 +62,8 @@
         style="@style/LongButton"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/chart_view"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         />
 
     <Button
@@ -70,6 +72,8 @@
         style="@style/LongButton"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/summary_trends_button"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         />
 
     <Button
@@ -78,5 +82,7 @@
         style="@style/LongButton"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/summary_history_button"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         />
 </RelativeLayout>
