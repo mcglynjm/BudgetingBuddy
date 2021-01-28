@@ -20,7 +20,7 @@ class ManualTransactionFragment : Fragment() {
     //TODO add listener here
 
     lateinit var theContext: Context
-
+    lateinit var renewsLayout: RelativeLayout
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -28,11 +28,14 @@ class ManualTransactionFragment : Fragment() {
         // Inflate the layout for this fragment
         val fragmentViewer = context as FragmentViewer
         val view = inflater.inflate(R.layout.manual_transaction, container, false)
-
+        renewsLayout = view.renew_layout
         view.cancel_button.setOnClickListener { fragmentViewer.onButtonHit(context!!.getString(R.string.home)) }
 
         view.ok_button.setOnClickListener {
-            makeNewTransaction(amount_edit_text_view.text.toString(), type_edit_text_view.text.toString(), item_edit_text_view.text.toString(), calcRenews(it.renew_layout))
+            if(amount_edit_text_view.text.length == 1){
+                amount_edit_text_view.setText("$0")
+            }
+            makeNewTransaction(amount_edit_text_view.text.toString(), type_edit_text_view.text.toString(), item_edit_text_view.text.toString(), calcRenews(renewsLayout))
              fragmentViewer.onButtonHit(context!!.getString(R.string.home))
         }
 
@@ -47,23 +50,22 @@ class ManualTransactionFragment : Fragment() {
         val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
         val formatted = current.format(formatter)
         Log.d(Constants.TAG, "DATE = $formatted")
-        if (amount.subSequence(1, amount.length).toString().length == 0) {
-            val transaction = ManualTransaction(0.toFloat(), type, items, renews, formatted)
-        }
-        val transaction = ManualTransaction(amount.subSequence(1, amount.length).toString().toFloat(), type, items, renews, formatted)
+        Log.d(Constants.TAG, "AMOUNT = $amount")
+        Log.d(Constants.TAG, "RENEWS = ${renews.name}")
 
+        val transaction = ManualTransaction(amount.subSequence(1, amount.length).toString().toFloat(), type, items, renews, formatted)
     }
 
-    private fun calcRenews(renewLayout: RelativeLayout?): Renews {
-        if (renewLayout?.month_button?.isSelected == true) {
+    private fun calcRenews(renewLayout: RelativeLayout): Renews {
+        if (renewLayout.month_button.isChecked == true) {
             return Renews.MONTH_1
-        } else if (renewLayout?.month_button3?.isSelected == true) {
+        } else if (renewLayout.month_button3.isChecked == true) {
             return Renews.MONTH_3
-        } else if (renewLayout?.month_button4?.isSelected == true) {
+        } else if (renewLayout.month_button4.isChecked == true) {
             return Renews.MONTH_4
-        } else if (renewLayout?.month_button6?.isSelected == true) {
+        } else if (renewLayout.month_button6.isChecked == true) {
             return Renews.MONTH_6
-        } else if (renewLayout?.year_button?.isSelected == true) {
+        } else if (renewLayout.year_button.isChecked == true) {
             return Renews.YEAR_1
         } else {
             return Renews.NEVER
