@@ -1,107 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/manual_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/manual_transaction_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/input_manual_transaction"
-        android:padding="20dp"
-        android:textColor="@color/black"
-        android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/amount_text_view"
+        android:id="@+id/scan_transaction_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/amount_colon"
         android:padding="20dp"
+        android:text="@string/input_scan_transaction"
         android:textColor="@color/black"
-        />
+        android:textSize="24sp" />
 
-    <EditText
-        android:id="@+id/amount_edit_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/dollar_sign"
-        android:padding="20dp"
-        android:inputType="number"
-        android:textColor="@color/gray"
-        />
 
     <TextView
-        android:id="@+id/type_text_view"
+        android:id="@+id/preview_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/type_colon"
-        android:padding="20dp"
+        android:backgroundTint="@color/gray"
+        android:padding="10dp"
+        android:paddingBottom="25dp"
+        android:text="@string/preview"
         android:textColor="@color/black"
-        />
+        android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/type_edit_text_view"
+    <GridLayout
+        android:id="@+id/grid_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/type"
-        android:padding="20dp"
-        android:textColor="@color/gray"
-        />
+        android:columnCount="2"
+        android:paddingVertical="25dp"
+        android:rowCount="4">
 
-    <TextView
-        android:id="@+id/item_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/items_optional_colon"
-        android:padding="20dp"
-        android:textColor="@color/black"
-        />
+        <EditText
+            android:id="@+id/transaction_name_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:hint="@string/transaction_name"
+            android:padding="10dp"
+            android:textColor="@color/black" />
 
-    <EditText
-        android:id="@+id/item_edit_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/items"
-        android:padding="20dp"
-        android:textColor="@color/gray"
-        />
+        <TextView
+            android:id="@+id/subtotal_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:hint="@string/subtotal_colon"
+            android:padding="10dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tax_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:hint="@string/tax_colon"
+            android:padding="10dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/total_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:hint="@string/total_colon"
+            android:padding="10dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/category_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_gravity="start"
+            android:hint="@string/category"
+            android:inputType="textCapWords"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/subtotal_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_gravity="start"
+            android:hint="@string/zero"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:visibility="visible" />
+
+
+        <EditText
+            android:id="@+id/tax_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:layout_gravity="start"
+            android:hint="@string/zero"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/total_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:layout_gravity="start"
+            android:hint="@string/zero"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:visibility="visible" />
+
+    </GridLayout>
 
 
     <RelativeLayout
-        android:id="@+id/renew_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/ok_button"
+        android:text="@string/cancel"
+        android:textColor="@color/teal_700"
+        android:textSize="20sp" />
 
-
-</LinearLayout>
-
-<TextView
-android:id="@+id/cancel_button"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="@string/cancel"
-android:layout_below="@id/renew_col2"
-android:layout_toLeftOf="@id/ok_button"
-android:textSize="20sp"
-android:textColor="@color/teal_700"
-    />
-
-<TextView
-android:id="@+id/ok_button"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="@string/ok"
-android:layout_below="@id/renew_col2"
-android:layout_alignParentRight="true"
-android:textSize="20sp"
-android:layout_marginStart="20dp"
-android:layout_marginEnd="20dp"
-android:textColor="@color/teal_700"
-
-    />
+    <TextView
+        android:id="@+id/ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/ok"
+        android:textColor="@color/teal_700"
+        android:textSize="20sp"
+        />
 
     </RelativeLayout>
-    </LinearLayout>
+
+</LinearLayout>

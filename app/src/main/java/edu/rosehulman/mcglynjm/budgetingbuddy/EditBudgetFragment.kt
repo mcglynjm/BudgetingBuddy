@@ -1,15 +1,12 @@
 package edu.rosehulman.mcglynjm.budgetingbuddy
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
+lateinit var add: MenuItem
 
 class EditBudgetFragment(var adapter: EditAdapter) : Fragment()  {
     override fun onCreateView(
@@ -20,8 +17,14 @@ class EditBudgetFragment(var adapter: EditAdapter) : Fragment()  {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        setHasOptionsMenu(true)
+
         return recyclerView
     }
 
-
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        add = menu.add("Add Category");
+        add.setIcon(R.drawable.ic_baseline_add_24);
+        add.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+    }
 }

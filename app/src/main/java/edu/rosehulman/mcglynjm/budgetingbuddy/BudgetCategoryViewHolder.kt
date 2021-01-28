@@ -5,7 +5,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.category_row.view.*
 import kotlinx.android.synthetic.main.category_row.view.name_view
-import kotlinx.android.synthetic.main.transaction_history_view.view.*
 
 class BudgetCategoryViewHolder : RecyclerView.ViewHolder {
         var context: Context?
@@ -18,7 +17,6 @@ class BudgetCategoryViewHolder : RecyclerView.ViewHolder {
             editButton.setOnClickListener {
                 //adapter.editCategory(adapterPosition)
             }
-
 
         }
 

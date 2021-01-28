@@ -3,6 +3,7 @@ package edu.rosehulman.mcglynjm.budgetingbuddy
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import androidx.fragment.app.Fragment
 
 class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect {
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect {
 
     override fun onButtonHit(type: String) {
         Log.d(Constants.TAG, "BUTTON $type hit")
-        if (type.equals(R.string.scan)) {
+        if (type.equals(getString(R.string.scan))) {
             Log.d(Constants.TAG, "Making $type fragment")
             viewFragment(ScanTransactionFragment(), type)
         } else if (type.equals(getString(R.string.manual))) {
@@ -45,7 +46,8 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect {
             viewFragment(HomeFragment(), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if(type.equals(getString(R.string.edit))) {
-           //viewFragment(EditBudgetFragment(), type)
+            val adapter = EditAdapter(this)
+           viewFragment(EditBudgetFragment(adapter), type)
         } else if(type.equals(getString(R.string.summary))) {
            viewFragment(SummaryFragment(), type)
             Log.d(Constants.TAG, "Making $type fragment")
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect {
         //for details in transaction history fragment
 
     }
+
 }
 
 interface FragmentViewer {

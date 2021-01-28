@@ -52,5 +52,16 @@
     <string name="home">home</string>
     <string name="edit">edit</string>
     <string name="summary">summary</string>
+    <string name="input_scan_transaction">Center receipt in box to scan</string>
+    <string name="preview">Preview Transaction</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="tax">Tax</string>
+    <string name="total">Total</string>
+    <string name="transaction_name">Transaction Name</string>
+    <string name="subtotal_colon">Subtotal:</string>
+    <string name="tax_colon">Tax:</string>
+    <string name="total_colon">Total:</string>
+    <string name="zero">0.00</string>
+    <string name="add_category">Add Category</string>
 
 </resources>
