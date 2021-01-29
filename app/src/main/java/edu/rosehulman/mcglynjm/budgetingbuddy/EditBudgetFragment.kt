@@ -1,10 +1,12 @@
 package edu.rosehulman.mcglynjm.budgetingbuddy
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.dialog_edit_add.view.*
 
 lateinit var add: MenuItem
 
@@ -26,5 +28,21 @@ class EditBudgetFragment(var adapter: EditAdapter) : Fragment()  {
         add = menu.add("Add Category");
         add.setIcon(R.drawable.ic_baseline_add_24);
         add.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        Log.d(Constants.TAG, "Menu item selected ID: ${item.itemId}")
+
+        return when (item.itemId) {
+            add.itemId-> {
+                adapter.showAddDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
