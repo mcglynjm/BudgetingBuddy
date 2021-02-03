@@ -38,7 +38,6 @@ class ManualTransactionFragment : Fragment() {
             makeNewTransaction(amount_edit_text_view.text.toString(), type_edit_text_view.text.toString(), item_edit_text_view.text.toString(), calcRenews(renewsLayout))
              fragmentViewer.onButtonHit(context!!.getString(R.string.home))
         }
-
         return view
     }
 

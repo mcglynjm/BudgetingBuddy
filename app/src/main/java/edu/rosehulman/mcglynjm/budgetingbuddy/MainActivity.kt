@@ -70,11 +70,9 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
         super.onStop()
         auth.removeAuthStateListener(authStateListener)
     }
+
     private fun initializeListeners() {
-        // TODO: Create an AuthStateListener that passes the UID
-        // to the MovieQuoteFragment if the user is logged in
-        // and goes back to the Splash fragment otherwise.
-        // See https://firebase.google.com/docs/auth/users#the_user_lifecycle
+        //TODO: Create an AuthStateListener that passes the UID
         authStateListener = FirebaseAuth.AuthStateListener {
             val user = auth.currentUser
             Log.d(Constants.TAG, "In auth listener, User: $user")
@@ -87,10 +85,6 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
                 viewFragment(SplashFragment(), "splash")
             }
         }
-    }
-
-    private fun switchToSplashFragment() {
-        viewFragment(SplashFragment(), "splash")
     }
 
 
@@ -121,9 +115,7 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
     override fun onTransactionSelected(transaction: ManualTransaction) {
         TODO("Not yet implemented")
         //for details in transaction history fragment
-
     }
-
 }
 
 interface FragmentViewer {
