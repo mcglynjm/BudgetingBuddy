@@ -42,10 +42,10 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
             Log.d(Constants.TAG, "Making $type fragment")
             viewFragment(ScanTransactionFragment(), type)
         } else if (type.equals(getString(R.string.manual))) {
-            viewFragment(ManualTransactionFragment(), type)
+            viewFragment(ManualTransactionFragment(auth.currentUser!!.uid), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if (type.equals(getString(R.string.history))) {
-            viewFragment(TransactionHistoryFragment(), type)
+            viewFragment(TransactionHistoryFragment(auth.currentUser!!.uid), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if (type.equals(getString(R.string.settings))) {
             viewFragment(UserSettingsFragment(), type)
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
 
            viewFragment(EditBudgetFragment(auth.currentUser?.uid!!), type)
         } else if(type.equals(getString(R.string.summary))) {
-           viewFragment(SummaryFragment(), type)
+           viewFragment(SummaryFragment(auth.currentUser!!.uid), type)
             Log.d(Constants.TAG, "Making $type fragment")
         }
     }

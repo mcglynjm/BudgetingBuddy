@@ -10,14 +10,26 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.manual_transaction.*
 import kotlinx.android.synthetic.main.manual_transaction.view.*
 import java.lang.RuntimeException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class ManualTransactionFragment : Fragment() {
+class ManualTransactionFragment(var uid: String) : Fragment() {
     //TODO add listener here
+    private val usersRef = FirebaseFirestore
+        .getInstance()
+        .collection(Constants.USERS_COLLECTION)
+        .document(uid)
+
+    private val transactionsRef = FirebaseFirestore
+        .getInstance()
+        .collection(Constants.USERS_COLLECTION)
+        .document(uid)
+        .collection(Constants.TRANSACTIONS_COLLECTION)
 
     lateinit var theContext: Context
     lateinit var renewsLayout: RelativeLayout
@@ -52,7 +64,18 @@ class ManualTransactionFragment : Fragment() {
         Log.d(Constants.TAG, "AMOUNT = $amount")
         Log.d(Constants.TAG, "RENEWS = ${renews.name}")
 
-        val transaction = ManualTransaction(amount.subSequence(1, amount.length).toString().toFloat(), type, items, renews, formatted)
+        val transaction = ManualTransaction(amount.subSequence(1, amount.length).toString().toLong(), type, items, renews, formatted)
+        //update user remaining balance
+        usersRef.get().addOnSuccessListener {snapshot: DocumentSnapshot ->
+            var monthlyRemaining = (snapshot["monthlyRemaining"] ?: "") as Long
+            Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
+            monthlyRemaining = monthlyRemaining - transaction.amount
+            Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
+            usersRef.update("monthlyRemaining", monthlyRemaining)
+            Log.d(Constants.TAG, "data: ${snapshot.data}")
+        }
+        //add to firebase
+        transactionsRef.add(transaction)
     }
 
     private fun calcRenews(renewLayout: RelativeLayout): Renews {
@@ -79,6 +102,5 @@ class ManualTransactionFragment : Fragment() {
             throw RuntimeException(context.toString() + " must implement TransactionSelect")
         }
     }
-
 }
        
