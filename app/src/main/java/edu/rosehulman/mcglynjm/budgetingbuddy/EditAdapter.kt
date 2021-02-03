@@ -26,16 +26,16 @@ class EditAdapter(var context: Context, var uid: String) : RecyclerView.Adapter<
             .orderBy(BudgetCategory.LAST_TOUCHED_KEY, Query.Direction.ASCENDING)
             .addSnapshotListener { querySnapshot, e ->
                 if (e != null) {
+                    Log.d(Constants.TAG, "Adding listener failed")
                     Log.w(Constants.TAG, "listen error", e)
                 } else {
+                    Log.d(Constants.TAG, "Listener Added")
                     processSnapshotChanges(querySnapshot!!)
                 }
             }
     }
 
     private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
-        // Snapshots has documents and documentChanges which are flagged by type,
-        // so we can handle C,U,D differently.
         for (documentChange in querySnapshot.documentChanges) {
             val budgetCategory = BudgetCategory.fromSnapshot(documentChange.document)
             when (documentChange.type) {

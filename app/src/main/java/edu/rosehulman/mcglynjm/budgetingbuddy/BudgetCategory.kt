@@ -8,7 +8,7 @@ import com.google.firebase.firestore.ServerTimestamp
 data class BudgetCategory(
     var name: String = "",
     var amount: Double = 0.00,
-    var isEnabled: Boolean = false) {
+    var enabled: Boolean = true) {
     @get:Exclude
     var id = ""
     @ServerTimestamp

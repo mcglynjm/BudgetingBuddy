@@ -12,7 +12,6 @@ class TransactionViewHolder : RecyclerView.ViewHolder {
     var dateView = itemView.date_view
     var nameView = itemView.name_view
 
-    var amountView = itemView.amount_view
     constructor(itemView: View, adapter: TransactionAdapter, context: Context?) : super(itemView) {
         this.context = context
         itemView.transaction_card_view.setOnClickListener {
@@ -25,7 +24,6 @@ class TransactionViewHolder : RecyclerView.ViewHolder {
     fun bind(transaction: ManualTransaction) {
         nameView.text = transaction.type
         dateView.text = transaction.date
-        amountView.text = transaction.amount.toString()
     }
 
 }

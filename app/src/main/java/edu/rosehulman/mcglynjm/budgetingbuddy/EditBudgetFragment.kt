@@ -24,6 +24,7 @@ class EditBudgetFragment(var uid: String) : Fragment()  {
         val recyclerView = inflater.inflate(R.layout.edit_budget, container, false) as RecyclerView
         adapter = EditAdapter(context!!, uid!!)
         recyclerView.adapter = adapter
+        adapter.addSnapshotListener()
         recyclerView.layoutManager =
             LinearLayoutManager(context)
 

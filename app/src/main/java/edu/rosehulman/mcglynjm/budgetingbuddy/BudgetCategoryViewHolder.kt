@@ -12,19 +12,21 @@ class BudgetCategoryViewHolder : RecyclerView.ViewHolder {
         var editButton = itemView.edit_category_button
         var toggleBox = itemView.toggle_category_checkbox
         var nameView = itemView.name_view
+        var amountView = itemView.amount_view
 
         constructor(itemView: View, adapter: EditAdapter, context: Context?) : super(itemView) {
             this.context = context
             editButton.setBackgroundResource(R.drawable.edit_button)
             editButton.setOnClickListener {
-                //adapter.editCategory(adapterPosition)
+                adapter.showAddDialog(adapterPosition)
             }
 
         }
 
 
         fun bind(category: BudgetCategory) {
-            toggleBox.isSelected = category.isEnabled
+            toggleBox.isSelected = category.enabled
             nameView.text = category.name
+            amountView.text = "$${category.amount}"
         }
 }
