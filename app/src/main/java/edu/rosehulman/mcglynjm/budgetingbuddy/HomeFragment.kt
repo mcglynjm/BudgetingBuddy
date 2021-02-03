@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.budget_summary.view.*
 import kotlinx.android.synthetic.main.home_screen.view.*
 import java.lang.RuntimeException

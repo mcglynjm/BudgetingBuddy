@@ -8,9 +8,11 @@ import kotlinx.android.synthetic.main.category_row.view.name_view
 
 class BudgetCategoryViewHolder : RecyclerView.ViewHolder {
         var context: Context?
+
         var editButton = itemView.edit_category_button
         var toggleBox = itemView.toggle_category_checkbox
         var nameView = itemView.name_view
+
         constructor(itemView: View, adapter: EditAdapter, context: Context?) : super(itemView) {
             this.context = context
             editButton.setBackgroundResource(R.drawable.edit_button)

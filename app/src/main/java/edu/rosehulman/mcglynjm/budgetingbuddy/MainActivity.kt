@@ -54,8 +54,8 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
             viewFragment(HomeFragment(), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if(type.equals(getString(R.string.edit))) {
-            val adapter = EditAdapter(this)
-           viewFragment(EditBudgetFragment(adapter), type)
+
+           viewFragment(EditBudgetFragment(auth.currentUser?.uid!!), type)
         } else if(type.equals(getString(R.string.summary))) {
            viewFragment(SummaryFragment(), type)
             Log.d(Constants.TAG, "Making $type fragment")

@@ -8,18 +8,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.dialog_edit_add.view.*
 
+private const val ARG_UID = "UID"
+
 lateinit var add: MenuItem
 
-class EditBudgetFragment(var adapter: EditAdapter) : Fragment()  {
+class EditBudgetFragment(var uid: String) : Fragment()  {
+
+
+    private lateinit var adapter: EditAdapter
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         val recyclerView = inflater.inflate(R.layout.edit_budget, container, false) as RecyclerView
+        adapter = EditAdapter(context!!, uid!!)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager =
+            LinearLayoutManager(context)
 
         setHasOptionsMenu(true)
+
+        Log.d(Constants.TAG, "onCreate")
 
         return recyclerView
     }
