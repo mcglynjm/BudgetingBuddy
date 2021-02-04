@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, SplashFragment.OnLoginButtonPressedListener {
     private val auth = FirebaseAuth.getInstance()
@@ -17,11 +19,16 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //setSupportActionBar(findViewById(R.id.toolbar))
-        //viewFragment(HomeFragment(), getString(R.string.home))
+        setSupportActionBar(toolbar)
+        // viewFragment(HomeFragment(), getString(R.string.home))
         initializeListeners()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
 
     fun viewFragment(fragment: Fragment, name: String) {
         if (fragment != null) {
@@ -111,6 +118,19 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
         startActivityForResult(loginIntent, RC_SIGN_IN)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                // DONE: Sign out.
+                auth.signOut()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
     override fun onTransactionSelected(transaction: ManualTransaction) {
         TODO("Not yet implemented")

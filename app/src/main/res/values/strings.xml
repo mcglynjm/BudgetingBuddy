@@ -69,5 +69,6 @@
     <string name="dialog_title_edit">Edit a Budget Category</string>
     <string name="delete">Delete</string>
     <string name="icon">Icon</string>
+    <string name="logout">Logout</string>
 
 </resources>
