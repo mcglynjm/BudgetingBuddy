@@ -2,80 +2,71 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/font_size_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
-
-        <ImageView
-            android:id="@+id/style_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="4dp"
-            android:layout_marginEnd="25dp"
-            />
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/style_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/style"
-            android:layout_toRightOf="@id/style_view"
-            android:textSize="20sp"
-            />
+            android:text="@string/font_size"
+            android:layout_alignParentLeft="true"
+            android:layout_marginHorizontal="15dp"
+            android:layout_centerVertical="true"/>
 
-            <TextView
-                android:id="@+id/viewing_budget_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/viewing_budget"
-                android:layout_toRightOf="@id/style_view"
-                android:layout_alignBottom="@id/style_view"
-                android:layout_marginEnd="25dp"
-                />
+        <ImageButton
+            android:id="@+id/font_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow_drop_up_24"
+            android:layout_marginHorizontal="15dp"
+            android:layout_toLeftOf="@+id/font_size_text_view"/>
 
-            <ImageButton
-                android:id="@+id/dollar_based_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_toRightOf="@id/viewing_budget_text_view"
-                android:layout_marginBottom="5dp"
-                />
+        <TextView
+            android:id="@+id/font_size_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero"
+            android:layout_toLeftOf="@+id/font_down"
+            android:layout_marginHorizontal="15dp"
+            android:layout_centerVertical="true"/>
 
-            <TextView
-                android:id="@+id/dollar_based_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dollar_based"
-                android:layout_below="@id/dollar_based_button"
-                />
+        <ImageButton
+            android:id="@+id/font_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow_drop_down_24"
+            android:layout_alignParentRight="true"
+            android:layout_marginHorizontal="15dp" />
 
-            <ImageButton
-                android:id="@+id/percentile_based_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_toRightOf="@id/dollar_based_text_view"
-                android:layout_marginBottom="5dp"
-                />
 
-            <TextView
-                android:id="@+id/percentile_based_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/percentile_based"
-                android:layout_below="@id/percentile_based_button"
-                />
+    </RelativeLayout>
 
-        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/font_style_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/font_size_layout">
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/font_style"
+            android:layout_alignParentLeft="true"
+            android:layout_marginHorizontal="15dp"
+            android:layout_centerVertical="true"/>
+
+        <Switch
+            android:id="@+id/bold_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginHorizontal="15dp"/>
+    </RelativeLayout>
 
 </RelativeLayout>

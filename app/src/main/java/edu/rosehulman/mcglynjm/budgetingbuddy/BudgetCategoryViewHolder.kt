@@ -1,4 +1,4 @@
-package edu.rosehulman.mcglynjm.budgetingbuddy
+ package edu.rosehulman.mcglynjm.budgetingbuddy
 
 import android.content.Context
 import android.view.View
@@ -27,6 +27,8 @@ class BudgetCategoryViewHolder : RecyclerView.ViewHolder {
         fun bind(category: BudgetCategory) {
             toggleBox.isSelected = category.enabled
             nameView.text = category.name
+
+
             amountView.text = "$${category.amount}"
         }
 }

@@ -55,10 +55,10 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
             viewFragment(TransactionHistoryFragment(auth.currentUser!!.uid), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if (type.equals(getString(R.string.settings))) {
-            viewFragment(UserSettingsFragment(), type)
+            viewFragment(UserSettingsFragment(auth.currentUser!!.uid), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if(type.equals(getString(R.string.home))) {
-            viewFragment(HomeFragment(), type)
+            viewFragment(HomeFragment(auth.currentUser!!), type)
             Log.d(Constants.TAG, "Making $type fragment")
         } else if(type.equals(getString(R.string.edit))) {
 
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
                 Log.d(Constants.TAG, "UID: ${user.uid}")
                 Log.d(Constants.TAG, "Name: ${user.displayName}")
                 // plus email, photoUrl, phoneNumber
-                viewFragment(HomeFragment(), getString(R.string.home))
+                viewFragment(HomeFragment(auth.currentUser!!), getString(R.string.home))
             } else {
                 viewFragment(SplashFragment(), "splash")
             }

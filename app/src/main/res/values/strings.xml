@@ -70,5 +70,7 @@
     <string name="delete">Delete</string>
     <string name="icon">Icon</string>
     <string name="logout">Logout</string>
+    <string name="font_size">Font Size</string>
+    <string name="font_style">Bold Text</string>
 
 </resources>

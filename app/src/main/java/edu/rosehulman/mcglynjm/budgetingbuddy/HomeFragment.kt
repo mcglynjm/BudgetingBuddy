@@ -7,13 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.budget_summary.view.*
 import kotlinx.android.synthetic.main.home_screen.view.*
 import java.lang.RuntimeException
 
-class HomeFragment  : Fragment() {
+class HomeFragment(var user: FirebaseUser)  : Fragment() {
     lateinit var theContext: Context
+
+    private val userRef = FirebaseFirestore
+        .getInstance()
+        .collection(Constants.USERS_COLLECTION)
+        .document(user.uid)
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -22,7 +27,9 @@ class HomeFragment  : Fragment() {
         // Inflate the layout for this fragment
         val fragmentViewer = context as FragmentViewer
         val view = inflater.inflate(R.layout.home_screen, container, false)
-        //TODO
+
+        view.welcome_text_view.setText("Welcome ${user.displayName}")
+
         //make viewFragment in mainactivity and make it an interface method
         view.home_edit_budget_button.setOnClickListener{fragmentViewer.onButtonHit(context!!.getString(R.string.edit))}
         view.home_input_transaction_button.setOnClickListener {

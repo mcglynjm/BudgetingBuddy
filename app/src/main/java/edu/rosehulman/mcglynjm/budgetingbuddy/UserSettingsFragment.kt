@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.user_settings.view.*
 import java.lang.RuntimeException
 
-class UserSettingsFragment : Fragment()  {
+class UserSettingsFragment(var uid: String) : Fragment()  {
     lateinit var theContext: Context
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
