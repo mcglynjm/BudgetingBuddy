@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="36sp"
-        android:text="@string/float_string"
+        android:text="@string/number_string"
         android:textColor="@color/green"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/total_balance_remaining_text_view"/>
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="36sp"
-        android:text="@string/float_string"
+        android:text="@string/number_string"
         android:textColor="@color/red"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/monthly_balance_remaining_text_view"/>

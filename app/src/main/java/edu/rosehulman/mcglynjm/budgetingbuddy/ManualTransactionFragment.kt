@@ -68,10 +68,13 @@ class ManualTransactionFragment(var uid: String) : Fragment() {
         //update user remaining balance
         usersRef.get().addOnSuccessListener {snapshot: DocumentSnapshot ->
             var monthlyRemaining = (snapshot["monthlyRemaining"] ?: "") as Long
+            var totalRemaining = (snapshot["remainingFunds"] ?: "") as Long
             Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
             monthlyRemaining = monthlyRemaining - transaction.amount
+            totalRemaining = totalRemaining - transaction.amount
             Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
             usersRef.update("monthlyRemaining", monthlyRemaining)
+            usersRef.update("remainingFunds", totalRemaining)
             Log.d(Constants.TAG, "data: ${snapshot.data}")
         }
         //add to firebase

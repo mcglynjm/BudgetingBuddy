@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BudgetingBuddy</string>
     <string name="total_balance_remaining">Total Balance Remaining:</string>
-    <string name="float_string">%f</string>
+    <string name="number_string">%f</string>
     <string name="monthly_balance_remaining">Monthly Balance Remaining:</string>
     <string name="monthly_breakdown">Monthly Breakdown:</string>
     <string name="overspending_breakdowns_and_trends">Overspending Breakdowns and Trends</string>
@@ -72,5 +72,5 @@
     <string name="logout">Logout</string>
     <string name="font_size">Font Size</string>
     <string name="font_style">Bold Text</string>
-
+    <string name="amount_string">$%d</string>
 </resources>

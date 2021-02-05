@@ -2,6 +2,7 @@ package edu.rosehulman.mcglynjm.budgetingbuddy
 
 import android.content.Context
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
@@ -59,12 +60,12 @@ class TransactionAdapter(var context: Context, var uid: String) : RecyclerView.A
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        TODO("Not yet implemented")
-        
+        val view = LayoutInflater.from(context).inflate(R.layout.transaction_history_view, parent, false)
+        return TransactionViewHolder(view, this, context)
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(transactions[position])
     }
 
     override fun getItemCount(): Int {
