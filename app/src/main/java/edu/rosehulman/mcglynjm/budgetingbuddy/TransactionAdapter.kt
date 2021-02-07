@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
+import kotlinx.android.synthetic.main.dialog_add_funds.view.*
 
 class TransactionAdapter(var context: Context, var uid: String) : RecyclerView.Adapter<TransactionViewHolder>() {
     private val transactions = ArrayList<ManualTransaction>()
@@ -60,7 +61,8 @@ class TransactionAdapter(var context: Context, var uid: String) : RecyclerView.A
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.transaction_history_view, parent, false)
+        val view =
+            LayoutInflater.from(context).inflate(R.layout.transaction_history_view, parent, false)
         return TransactionViewHolder(view, this, context)
     }
 
@@ -75,7 +77,50 @@ class TransactionAdapter(var context: Context, var uid: String) : RecyclerView.A
     fun selectTransaction(position: Int) {
         (context as TransactionSelect).onTransactionSelected(transactions.get(position))
     }
-}
+
+    fun displaySearchDialog() {
+            val builder = androidx.appcompat.app.AlertDialog.Builder(context)//AlertDialog.Builder(this)
+            //set options
+            builder.setTitle(R.string.search_transactions)
+            val view = LayoutInflater.from(context).inflate(R.layout.dialog_search_transactions, null, false)
+            builder.setView(view)
+            builder.setPositiveButton(android.R.string.ok) { _, _ ->
+                val date = view.amount_edit_text.text.toString()
+                if(date.equals("")) {
+                    //set back to all
+                    showAllTransactions()
+                }
+                else {
+                    //set to searched
+                    showSearchedTransactions(date)
+                }
+            }
+            builder.setNegativeButton(android.R.string.cancel, null)
+            builder.create().show()
+        }
+
+    fun showSearchedTransactions(date: String) {
+        listenerRegistration.remove()
+        transactions.clear()
+        notifyDataSetChanged()
+        transactionsRef.whereGreaterThan("date", date)
+            .addSnapshotListener { querySnapshot: QuerySnapshot?, e: FirebaseFirestoreException? ->
+                if (e != null) {
+                    Log.e(Constants.TAG, "Listen error: $e")
+                    return@addSnapshotListener
+                } else {
+                    processSnapshotChanges(querySnapshot!!)
+                }
+            }
+    }
+
+    fun showAllTransactions() {
+        listenerRegistration.remove()
+        transactions.clear()
+        notifyDataSetChanged()
+        addSnapshotListener()
+    }
+    }
 
 interface TransactionSelect {
     fun onTransactionSelected(transaction: ManualTransaction)

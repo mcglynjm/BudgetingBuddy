@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.manual_transaction.*
 import kotlinx.android.synthetic.main.manual_transaction.view.*
 import java.lang.RuntimeException
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -63,19 +64,20 @@ class ManualTransactionFragment(var uid: String) : Fragment() {
         Log.d(Constants.TAG, "DATE = $formatted")
         Log.d(Constants.TAG, "AMOUNT = $amount")
         Log.d(Constants.TAG, "RENEWS = ${renews.name}")
-
-        val transaction = ManualTransaction(amount.subSequence(1, amount.length).toString().toLong(), type, items, renews, formatted)
+        val transaction = ManualTransaction(amount.subSequence(1, amount.length).toString().toDouble(), type, items, renews, formatted)
         //update user remaining balance
-        usersRef.get().addOnSuccessListener {snapshot: DocumentSnapshot ->
-            var monthlyRemaining = (snapshot["monthlyRemaining"] ?: "") as Long
-            var totalRemaining = (snapshot["remainingFunds"] ?: "") as Long
+//        var monthlyRemaining: Double?
+//        var totalRemaining: Double?
+        usersRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
+            //var monthlyRemaining = (snapshot["monthlyRemaining"] ?: "") as Float
+            var monthlyRemaining = snapshot.getDouble("monthlyRemaining") as Double
+            var totalRemaining = snapshot.getDouble("remainingFunds") as Double
             Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
-            monthlyRemaining = monthlyRemaining - transaction.amount
-            totalRemaining = totalRemaining - transaction.amount
+            monthlyRemaining -= transaction.amount
+            totalRemaining -= transaction.amount
             Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
             usersRef.update("monthlyRemaining", monthlyRemaining)
             usersRef.update("remainingFunds", totalRemaining)
-            Log.d(Constants.TAG, "data: ${snapshot.data}")
         }
         //add to firebase
         transactionsRef.add(transaction)

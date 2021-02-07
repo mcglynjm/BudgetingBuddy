@@ -72,5 +72,8 @@
     <string name="logout">Logout</string>
     <string name="font_size">Font Size</string>
     <string name="font_style">Bold Text</string>
-    <string name="amount_string">$%d</string>
+    <string name="amount_string">$%f</string>
+    <string name="add_funds">Add Funds</string>
+    <string name="search_transactions">Search Transactions</string>
+    <string name="search">MM-dd-yyyy</string>
 </resources>
