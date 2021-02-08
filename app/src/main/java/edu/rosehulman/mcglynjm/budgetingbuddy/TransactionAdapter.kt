@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.dialog_add_funds.view.*
+import kotlinx.android.synthetic.main.dialog_search_transactions.view.*
 
 class TransactionAdapter(var context: Context, var uid: String) : RecyclerView.Adapter<TransactionViewHolder>() {
     private val transactions = ArrayList<ManualTransaction>()
@@ -85,7 +86,7 @@ class TransactionAdapter(var context: Context, var uid: String) : RecyclerView.A
             val view = LayoutInflater.from(context).inflate(R.layout.dialog_search_transactions, null, false)
             builder.setView(view)
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
-                val date = view.amount_edit_text.text.toString()
+                val date = view.date_edit_text.text.toString()
                 if(date.equals("")) {
                     //set back to all
                     showAllTransactions()

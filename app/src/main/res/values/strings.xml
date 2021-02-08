@@ -76,4 +76,6 @@
     <string name="add_funds">Add Funds</string>
     <string name="search_transactions">Search Transactions</string>
     <string name="search">MM-dd-yyyy</string>
+    <string name="total_amount">$ To Add To Total Amount</string>
+    <string name="monthly_amount">$ To Add To Monthly Amount</string>
 </resources>

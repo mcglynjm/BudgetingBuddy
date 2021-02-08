@@ -5,11 +5,19 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/amount_edit_text"
+        android:id="@+id/total_amount_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:hint="@string/amount"
+        android:hint="@string/total_amount"
+        android:inputType="numberDecimal"
+        android:text=""/>
+    <EditText
+        android:id="@+id/monthly_amount_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:hint="@string/monthly_amount"
         android:inputType="numberDecimal"
         android:text=""/>
 </LinearLayout>
