@@ -72,4 +72,9 @@ class HomeFragment(var user: FirebaseUser)  : Fragment() {
             throw RuntimeException(context.toString() + " must implement FragmentViewer")
         }
     }
+
+    fun addCategoryTransactions(){
+        var categories = userRef.collection(getString(R.string.categories_collection_reference))
+    }
+
 }

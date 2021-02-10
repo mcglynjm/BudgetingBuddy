@@ -78,4 +78,5 @@
     <string name="search">MM-dd-yyyy</string>
     <string name="total_amount">$ To Add To Total Amount</string>
     <string name="monthly_amount">$ To Add To Monthly Amount</string>
+    <string name="categories_collection_reference">categories</string>
 </resources>
