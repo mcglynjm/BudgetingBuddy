@@ -7,6 +7,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions.merge
 import kotlinx.android.synthetic.main.budget_summary.view.*
 import kotlinx.android.synthetic.main.dialog_add_funds.view.*
 import kotlinx.android.synthetic.main.manual_transaction.*
@@ -87,8 +88,10 @@ class SummaryFragment(var uid: String) : Fragment() {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_add_funds, null, false)
         builder.setView(view)
         builder.setPositiveButton(android.R.string.ok){_,_ ->
-            val totalAmount = (view.total_amount_edit_text.text.toString().toDouble() + 0.00)
-            val monthlyAmount = (view.monthly_amount_edit_text.text.toString().toDouble() + 0.00)
+
+
+            val totalAmount = ("0" + view.total_amount_edit_text.text.toString()).toDouble()
+            val monthlyAmount = ("0" + view.monthly_amount_edit_text.text.toString()).toDouble()
 
             Log.d(Constants.TAG, "adding  $$totalAmount to the total and $$monthlyAmount monthly")
 
@@ -101,8 +104,7 @@ class SummaryFragment(var uid: String) : Fragment() {
                 Log.d(Constants.TAG, "new total $$oldRemainingFunds and $$oldMonthlyRemaining monthly")
 
                 Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
-                usersRef.update("monthlyRemaining", oldMonthlyRemaining)
-                usersRef.update("remainingFunds", oldRemainingFunds)
+                usersRef.set(mapOf("monthlyRemaining" to oldMonthlyRemaining, "remainingFunds" to oldRemainingFunds), merge())
             }
             //getInitValues()
         }
