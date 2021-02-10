@@ -121,4 +121,9 @@ class EditAdapter(var context: Context, var uid: String) : RecyclerView.Adapter<
         categoriesRef.document(categories[position].id).set(categories[position])
     }
 
+    fun changeEnabled(position: Int, enabled: Boolean){
+        categories[position].enabled = enabled
+        categoriesRef.document(categories[position].id).set(categories[position])
+    }
+
 }

@@ -70,8 +70,8 @@ class ManualTransactionFragment(var uid: String) : Fragment() {
 //        var totalRemaining: Double?
         usersRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
             //var monthlyRemaining = (snapshot["monthlyRemaining"] ?: "") as Float
-            var monthlyRemaining = snapshot.getDouble("monthlyRemaining") as Double
-            var totalRemaining = snapshot.getDouble("remainingFunds") as Double
+            var monthlyRemaining = (snapshot.getDouble("monthlyRemaining") ?: 0.00)as Double
+            var totalRemaining = (snapshot.getDouble("remainingFunds") ?: 0.00) as Double
             Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
             monthlyRemaining -= transaction.amount
             totalRemaining -= transaction.amount

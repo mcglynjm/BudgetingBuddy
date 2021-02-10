@@ -87,15 +87,19 @@ class SummaryFragment(var uid: String) : Fragment() {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_add_funds, null, false)
         builder.setView(view)
         builder.setPositiveButton(android.R.string.ok){_,_ ->
-            val totalAmount = view.total_amount_edit_text.text.toString().toDouble()
-            val monthlyAmount = view.monthly_amount_edit_text.text.toString().toDouble()
+            val totalAmount = (view.total_amount_edit_text.text.toString().toDouble() + 0.00)
+            val monthlyAmount = (view.monthly_amount_edit_text.text.toString().toDouble() + 0.00)
+
+            Log.d(Constants.TAG, "adding  $$totalAmount to the total and $$monthlyAmount monthly")
 
             usersRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
-                var oldMonthlyRemaining = snapshot.getDouble("monthlyRemaining") as Double
-                var oldRemainingFunds = snapshot.getDouble("remainingFunds") as Double
-                Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
+                var oldMonthlyRemaining = (snapshot.getDouble("monthlyRemaining")  ?: 0.00)as Double
+                var oldRemainingFunds = (snapshot.getDouble("remainingFunds") ?: 0.00) as Double
                 oldMonthlyRemaining += monthlyAmount
                 oldRemainingFunds += totalAmount
+
+                Log.d(Constants.TAG, "new total $$oldRemainingFunds and $$oldMonthlyRemaining monthly")
+
                 Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
                 usersRef.update("monthlyRemaining", oldMonthlyRemaining)
                 usersRef.update("remainingFunds", oldRemainingFunds)
@@ -125,9 +129,9 @@ class SummaryFragment(var uid: String) : Fragment() {
                 return@addSnapshotListener
             }
             ///remainingFunds = (snapshot["remainingFunds"] ?: "") as Long
-            this.monthlyBudget = querySnapshot!!.getDouble("monthlyBudget") as Double
-            this.monthlyRemaining = querySnapshot!!.getDouble("monthlyRemaining") as Double
-            this.remainingFunds = querySnapshot!!.getDouble("remainingFunds") as Double
+            this.monthlyBudget = (querySnapshot!!.getDouble("monthlyBudget")  ?: 0.00)as Double
+            this.monthlyRemaining = (querySnapshot!!.getDouble("monthlyRemaining") ?: 0.00) as Double
+            this.remainingFunds = (querySnapshot!!.getDouble("remainingFunds")  ?: 0.00)as Double
             Log.d(Constants.TAG, "Monthly Remaining: $monthlyRemaining")
             view!!.total_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, remainingFunds)
             view!!.monthly_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, monthlyRemaining)
