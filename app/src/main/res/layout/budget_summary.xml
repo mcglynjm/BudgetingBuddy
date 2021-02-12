@@ -49,7 +49,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/monthly_balance_remaining_number"/>
 
-    <ImageView
+    <lecho.lib.hellocharts.view.PieChartView
         android:id="@+id/chart_view"
         android:layout_width="match_parent"
         android:layout_height="300dp"

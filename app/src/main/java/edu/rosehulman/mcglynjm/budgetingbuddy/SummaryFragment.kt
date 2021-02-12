@@ -12,6 +12,9 @@ import kotlinx.android.synthetic.main.budget_summary.view.*
 import kotlinx.android.synthetic.main.dialog_add_funds.view.*
 import kotlinx.android.synthetic.main.manual_transaction.*
 import kotlinx.android.synthetic.main.manual_transaction.view.*
+import lecho.lib.hellocharts.model.PieChartData
+import lecho.lib.hellocharts.model.SliceValue
+import lecho.lib.hellocharts.view.PieChartView
 import java.lang.RuntimeException
 
 class SummaryFragment(var uid: String) : Fragment() {
@@ -19,11 +22,15 @@ class SummaryFragment(var uid: String) : Fragment() {
     var remainingFunds: Double? = null
     var monthlyBudget: Double? = null
     var monthlyRemaining: Double? = null
+    var numCategory: Int? = null
+    var totalSpent = 0.toDouble()
+    var categoryMap = HashMap<String, Double>()
 
     private val usersRef = FirebaseFirestore
         .getInstance()
         .collection(Constants.USERS_COLLECTION)
         .document(uid)
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -46,18 +53,69 @@ class SummaryFragment(var uid: String) : Fragment() {
         }
         setHasOptionsMenu(true)
 
-
-        //TODO
-        //set chart graphic here (after reaearch into libraries)
-        //view.chart_view.setImageBitmap()
-
         this.getInitValues()
 //
 //        view.total_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, remainingFunds)
 //        view.monthly_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, monthlyRemaining)
-
+        //TODO
+        //set chart graphic here (after reaearch into libraries)
+        //use the totals of each category
+        usersRef.collection(Constants.CATEGORIES_COLLECTION)
+            .get().addOnSuccessListener { querySnapshot ->
+                numCategory = querySnapshot.documents.size
+                var pieDataArray = ArrayList<SliceValue>()
+                Log.d(Constants.TAG, "$numCategory : Categories")
+                for(category in querySnapshot.documents) {
+                    var categoryName = (category.data?.get("name") as String)
+                    var categorySum = getCategorySum(categoryName)
+                    totalSpent += categorySum
+                    //categoryMap[(category.data?.get("name") as String)] = categorySum
+                    pieDataArray.add(
+                        SliceValue(
+                            categorySum.toFloat(),
+                            R.color.green
+                        ).setLabel(getString(R.string.chart_label, categoryName, categorySum))
+                    )
+                }
+                    Log.d(Constants.TAG, "Pie SLices: ${pieDataArray.size}")
+                    var pieData = PieChartData(pieDataArray)
+                    pieData.setHasLabels(true)
+                    pieData.valueLabelTextSize = 12
+                    pieData.isValueLabelBackgroundEnabled = false
+                    val pieChartView: PieChartView = view.chart_view
+                    pieChartView.pieChartData = pieData
+                }
+                Log.d(Constants.TAG, "Category Map: $categoryMap")
+        /*
+        var pieDataArray = ArrayList<SliceValue>()
+        for(categoryName in categoryMap.keys) {
+            pieDataArray.add(
+                SliceValue(categoryMap[categoryName]!!.toFloat(), R.color.green).setLabel(getString(R.string.chart_label, categoryName, categoryMap.get(categoryName)))
+            )
+        }
+        Log.d(Constants.TAG, "Pie SLices: ${pieDataArray.size}")
+        var pieData = PieChartData(pieDataArray)
+        pieData.setHasLabels(true)
+        pieData.valueLabelTextSize = 12
+        pieData.isValueLabelBackgroundEnabled = false
+        val pieChartView: PieChartView = view.chart_view
+        pieChartView.pieChartData = pieData
+*/
         return view
     }
+
+    private fun getCategorySum(categoryName: String): Double {
+        var spent = 0.toDouble()
+        usersRef.collection(Constants.TRANSACTIONS_COLLECTION).whereEqualTo("type", categoryName).get().addOnSuccessListener { querySnapshot ->
+            for(transaction in querySnapshot.documents) {
+                spent += (transaction.getDouble("amount")  ?: 0.00)
+                Log.d(Constants.TAG, "Spent: $spent on category $categoryName")
+
+            }
+        }
+        return spent
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         add = menu.add("Add Funds");
