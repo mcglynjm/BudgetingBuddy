@@ -192,9 +192,10 @@ class SummaryFragment(var uid: String) : Fragment() {
             this.monthlyBudget = (querySnapshot!!.getDouble("monthlyBudget")  ?: 0.00)as Double
             this.monthlyRemaining = (querySnapshot!!.getDouble("monthlyRemaining") ?: 0.00) as Double
             this.remainingFunds = (querySnapshot!!.getDouble("remainingFunds")  ?: 0.00)as Double
+            Log.d(Constants.TAG, "Total Remaining: $remainingFunds")
             Log.d(Constants.TAG, "Monthly Remaining: $monthlyRemaining")
-            view!!.total_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, remainingFunds)
-            view!!.monthly_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, monthlyRemaining)
+            view!!.total_balance_remaining_number.text = "$$remainingFunds"//context!!.resources!!.getString(R.string.amount_string, remainingFunds)
+            view!!.monthly_balance_remaining_number.text = "$$monthlyRemaining"//context!!.resources!!.getString(R.string.amount_string, monthlyRemaining)
             if(this.remainingFunds!! > 0) {
                 view!!.total_balance_remaining_number.setTextColor(context!!.resources.getColor(R.color.green))
             }
