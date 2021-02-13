@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.Continuation
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions.merge
 import kotlinx.android.synthetic.main.budget_summary.view.*
 import kotlinx.android.synthetic.main.dialog_add_funds.view.*
@@ -22,7 +25,7 @@ class SummaryFragment(var uid: String) : Fragment() {
     var remainingFunds: Double? = null
     var monthlyBudget: Double? = null
     var monthlyRemaining: Double? = null
-    var numCategory: Int? = null
+  //  var numCategory: Int? = null
     var totalSpent = 0.toDouble()
     var categoryMap = HashMap<String, Double>()
 
@@ -30,6 +33,9 @@ class SummaryFragment(var uid: String) : Fragment() {
         .getInstance()
         .collection(Constants.USERS_COLLECTION)
         .document(uid)
+
+    private lateinit var listenerRegistration: ListenerRegistration
+//    lateinit var pieData: PieChartData
 
 
     override fun onCreateView(
@@ -53,55 +59,18 @@ class SummaryFragment(var uid: String) : Fragment() {
         }
         setHasOptionsMenu(true)
 
-        this.getInitValues()
+//        this.getInitValues()
 //
 //        view.total_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, remainingFunds)
 //        view.monthly_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, monthlyRemaining)
         //TODO
         //set chart graphic here (after reaearch into libraries)
         //use the totals of each category
-        usersRef.collection(Constants.CATEGORIES_COLLECTION)
-            .get().addOnSuccessListener { querySnapshot ->
-                numCategory = querySnapshot.documents.size
-                var pieDataArray = ArrayList<SliceValue>()
-                Log.d(Constants.TAG, "$numCategory : Categories")
-                for(category in querySnapshot.documents) {
-                    var categoryName = (category.data?.get("name") as String)
-                    var categorySum = getCategorySum(categoryName)
-                    totalSpent += categorySum
-                    //categoryMap[(category.data?.get("name") as String)] = categorySum
-                    pieDataArray.add(
-                        SliceValue(
-                            categorySum.toFloat(),
-                            R.color.green
-                        ).setLabel(getString(R.string.chart_label, categoryName, categorySum))
-                    )
-                }
-                    Log.d(Constants.TAG, "Pie SLices: ${pieDataArray.size}")
-                    var pieData = PieChartData(pieDataArray)
-                    pieData.setHasLabels(true)
-                    pieData.valueLabelTextSize = 12
-                    pieData.isValueLabelBackgroundEnabled = false
-                    val pieChartView: PieChartView = view.chart_view
-                    pieChartView.pieChartData = pieData
-                }
-                Log.d(Constants.TAG, "Category Map: $categoryMap")
-        /*
-        var pieDataArray = ArrayList<SliceValue>()
-        for(categoryName in categoryMap.keys) {
-            pieDataArray.add(
-                SliceValue(categoryMap[categoryName]!!.toFloat(), R.color.green).setLabel(getString(R.string.chart_label, categoryName, categoryMap.get(categoryName)))
-            )
-        }
-        Log.d(Constants.TAG, "Pie SLices: ${pieDataArray.size}")
-        var pieData = PieChartData(pieDataArray)
-        pieData.setHasLabels(true)
-        pieData.valueLabelTextSize = 12
-        pieData.isValueLabelBackgroundEnabled = false
-        val pieChartView: PieChartView = view.chart_view
-        pieChartView.pieChartData = pieData
-*/
-        return view
+
+//        val pieChartView: PieChartView = view.chart_view as PieChartView
+//        pieChartView.pieChartData = pieData
+        return ChartTask().execute(view, usersRef, theContext)
+        //return view
     }
 
     private fun getCategorySum(categoryName: String): Double {
@@ -179,11 +148,67 @@ class SummaryFragment(var uid: String) : Fragment() {
         else {
             throw RuntimeException(context.toString() + " must implement FragmentViewer")
         }
-        //getInitValues()
+        getInitValues()
+        //makeChartData()
+    }
+
+    private fun makeChartData() {
+        //TODO
+        //set chart graphic here (after reaearch into libraries)
+        //use the totals of each category
+        var pieDataArray = ArrayList<SliceValue>()
+        var categoryTask =  usersRef.collection(Constants.CATEGORIES_COLLECTION)
+            .get().addOnSuccessListener { querySnapshot ->
+                //numCategory = querySnapshot.documents.size
+                //Log.d(Constants.TAG, "$numCategory : Categories")
+            }
+            .addOnCompleteListener {
+                for (category in it.result?.documents!!) {
+                    var categoryName = (category.data?.get("name") as String)
+                    // var categorySum = getCategorySum(categoryName)
+                    // var spent = 0.toDouble()
+                    var task = usersRef.collection(Constants.TRANSACTIONS_COLLECTION)
+                        .whereEqualTo("type", categoryName).get()
+                        .addOnSuccessListener { querySnapshot ->
+//                        for(transaction in querySnapshot.documents) {
+//                            spent += (transaction.getDouble("amount")  ?: 0.00)
+//                            Log.d(Constants.TAG, "Spent: $spent on category $categoryName")
+//
+//                        }
+                        }
+                    task.continueWith(Continuation<QuerySnapshot, Double> {
+                        it.result?.sumByDouble { it.getDouble("amount") ?: 0.toDouble() }
+                    })
+                        .addOnCompleteListener { task ->
+                            var spent = task.result ?: 0.toDouble()
+                            totalSpent += spent
+
+                            pieDataArray.add(
+                                SliceValue(
+                                    spent.toFloat(),
+                                    R.color.green
+                                ).setLabel(getString(R.string.chart_label, categoryName, spent))
+                            )
+                        }
+                    // var spent = task.result?.sumByDouble { it.getDouble("amount") ?: 0.toDouble() } ?: 0.toDouble()
+                    //categoryMap[(category.data?.get("name") as String)] = categorySum
+                }
+
+                Log.d(Constants.TAG, "Pie SLices: ${pieDataArray.size}")
+//                pieData = PieChartData(pieDataArray)
+//                pieData.setHasLabels(true)
+//                pieData.valueLabelTextSize = 12
+//                pieData.isValueLabelBackgroundEnabled = false
+            }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listenerRegistration.remove()
     }
 
     fun getInitValues() {
-        usersRef.addSnapshotListener { querySnapshot, e ->
+        listenerRegistration =  usersRef.addSnapshotListener { querySnapshot, e ->
             if (e != null) {
                 Log.e(Constants.TAG, "Listen error: $e")
                 return@addSnapshotListener
@@ -194,8 +219,8 @@ class SummaryFragment(var uid: String) : Fragment() {
             this.remainingFunds = (querySnapshot!!.getDouble("remainingFunds")  ?: 0.00)as Double
             Log.d(Constants.TAG, "Total Remaining: $remainingFunds")
             Log.d(Constants.TAG, "Monthly Remaining: $monthlyRemaining")
-            view!!.total_balance_remaining_number.text = "$$remainingFunds"//context!!.resources!!.getString(R.string.amount_string, remainingFunds)
-            view!!.monthly_balance_remaining_number.text = "$$monthlyRemaining"//context!!.resources!!.getString(R.string.amount_string, monthlyRemaining)
+            view!!.total_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, remainingFunds)//"$$remainingFunds"//context!!.resources!!.getString(R.string.amount_string, remainingFunds)
+            view!!.monthly_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, monthlyRemaining)//"$$monthlyRemaining"
             if(this.remainingFunds!! > 0) {
                 view!!.total_balance_remaining_number.setTextColor(context!!.resources.getColor(R.color.green))
             }
