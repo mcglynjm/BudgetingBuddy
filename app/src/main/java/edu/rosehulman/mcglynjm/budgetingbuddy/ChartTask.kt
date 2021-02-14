@@ -1,6 +1,7 @@
 package edu.rosehulman.mcglynjm.budgetingbuddy
 
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import com.google.android.gms.tasks.Continuation
@@ -10,6 +11,9 @@ import kotlinx.android.synthetic.main.budget_summary.view.*
 import lecho.lib.hellocharts.model.PieChartData
 import lecho.lib.hellocharts.model.SliceValue
 import lecho.lib.hellocharts.view.PieChartView
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class ChartTask {
     fun execute(view: View, usersRef: DocumentReference, context: Context) : View{
@@ -23,15 +27,18 @@ class ChartTask {
                     // var spent = 0.toDouble()
                     var task = usersRef.collection(Constants.TRANSACTIONS_COLLECTION)
                         .whereEqualTo("type", categoryName).get()
-                    task.continueWith(Continuation<QuerySnapshot, SliceValue> {list ->
-                        var spent = list.result?.sumByDouble { it.getDouble("amount") ?: 0.toDouble() } ?: 0.toDouble()
+                    task.continueWith(Continuation<QuerySnapshot, SliceValue> { list ->
+                        var spent =
+                            list.result?.sumByDouble { it.getDouble("amount") ?: 0.toDouble() }
+                                ?: 0.toDouble()
                         Log.d(Constants.TAG, "Spent $spent on category: $categoryName")
+                        val rnd = Random()
                         return@Continuation SliceValue(
-                           spent.toFloat(),
-                           R.color.green
-                       ).setLabel(context.getString(R.string.chart_label, categoryName, spent))
+                            spent.toFloat(),
+                            Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+                        ).setLabel(context.getString(R.string.chart_label, categoryName, spent))
                     })
-                    .addOnCompleteListener {num->
+                    .addOnCompleteListener { num->
                         num.result?.let {
                             pieDataArray.add(
                                 it

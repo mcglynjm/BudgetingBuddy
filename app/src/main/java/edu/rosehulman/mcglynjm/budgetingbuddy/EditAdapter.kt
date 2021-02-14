@@ -12,10 +12,12 @@ import kotlinx.android.synthetic.main.dialog_edit_add.view.*
 class EditAdapter(var context: Context, var uid: String) : RecyclerView.Adapter<BudgetCategoryViewHolder>() {
     private val categories = ArrayList<BudgetCategory>()
 
-    private val categoriesRef = FirebaseFirestore
-        .getInstance()
-        .collection(Constants.USERS_COLLECTION)
-        .document(uid)
+    private val userRef = FirebaseFirestore
+    .getInstance()
+    .collection(Constants.USERS_COLLECTION)
+    .document(uid)
+
+    private val categoriesRef = userRef
         .collection(Constants.CATEGORIES_COLLECTION)
 
     private lateinit var listenerRegistration: ListenerRegistration
@@ -113,17 +115,61 @@ class EditAdapter(var context: Context, var uid: String) : RecyclerView.Adapter<
 
     private fun add(budgetCategory: BudgetCategory) {
         categoriesRef.add(budgetCategory)
+
+
+        userRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
+            var monthlyRemaining = (snapshot.getDouble("monthlyRemaining")  ?: 0.00)as Double
+
+            monthlyRemaining += budgetCategory.amount
+
+            Log.d(Constants.TAG, "added $${budgetCategory.amount} for ${budgetCategory.name} now $$monthlyRemaining monthly")
+
+            userRef.set(mapOf("monthlyRemaining" to monthlyRemaining),
+                SetOptions.merge()
+            )
+        }
     }
 
     private fun edit(position: Int, name: String, amount: Double) {
-        categories[position].name = name
-        categories[position].amount = amount
+        val budgetCategory  =  categories[position]
+        val amountChange = amount - budgetCategory.amount
+        budgetCategory.name = name
+        budgetCategory.amount = amount
         categoriesRef.document(categories[position].id).set(categories[position])
+
+        userRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
+            var monthlyRemaining = (snapshot.getDouble("monthlyRemaining")  ?: 0.00)as Double
+
+            monthlyRemaining += amountChange
+
+            Log.d(Constants.TAG, "adjusted ${budgetCategory.name} by $${amountChange} to $${budgetCategory.amount} now $$monthlyRemaining monthly")
+
+            userRef.set(mapOf("monthlyRemaining" to monthlyRemaining),
+                SetOptions.merge()
+            )
+        }
     }
 
-    fun changeEnabled(position: Int, enabled: Boolean){
-        categories[position].enabled = enabled
+    fun changeEnabled(position: Int, isEnabled: Boolean){
+        val category = categories[position]
+        category.enabled = isEnabled
         categoriesRef.document(categories[position].id).set(categories[position])
+
+        userRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
+            var monthlyRemaining = (snapshot.getDouble("monthlyRemaining")  ?: 0.00)as Double
+
+            if(isEnabled) {
+                monthlyRemaining += category.amount
+                Log.d(Constants.TAG, "added $${category.amount} for ${category.name} now $$monthlyRemaining monthly")
+            }else{
+                monthlyRemaining -= category.amount
+                Log.d(Constants.TAG, "removed $${category.amount} for ${category.name} now $$monthlyRemaining monthly")
+            }
+
+            userRef.set(mapOf("monthlyRemaining" to monthlyRemaining),
+                SetOptions.merge()
+            )
+        }
     }
 
 }

@@ -34,7 +34,6 @@ class SummaryFragment(var uid: String) : Fragment() {
         .collection(Constants.USERS_COLLECTION)
         .document(uid)
 
-    private lateinit var listenerRegistration: ListenerRegistration
 //    lateinit var pieData: PieChartData
 
 
@@ -152,6 +151,11 @@ class SummaryFragment(var uid: String) : Fragment() {
         //makeChartData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getInitValues()
+    }
+
     private fun makeChartData() {
         //TODO
         //set chart graphic here (after reaearch into libraries)
@@ -202,21 +206,12 @@ class SummaryFragment(var uid: String) : Fragment() {
             }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        listenerRegistration.remove()
-    }
 
     fun getInitValues() {
-        listenerRegistration =  usersRef.addSnapshotListener { querySnapshot, e ->
-            if (e != null) {
-                Log.e(Constants.TAG, "Listen error: $e")
-                return@addSnapshotListener
-            }
-            ///remainingFunds = (snapshot["remainingFunds"] ?: "") as Long
-            this.monthlyBudget = (querySnapshot!!.getDouble("monthlyBudget")  ?: 0.00)as Double
-            this.monthlyRemaining = (querySnapshot!!.getDouble("monthlyRemaining") ?: 0.00) as Double
-            this.remainingFunds = (querySnapshot!!.getDouble("remainingFunds")  ?: 0.00)as Double
+            usersRef.get().addOnSuccessListener {  document ->
+            this.monthlyBudget = (document!!.getDouble("monthlyBudget")  ?: 0.00)as Double
+            this.monthlyRemaining = (document!!.getDouble("monthlyRemaining") ?: 0.00) as Double
+            this.remainingFunds = (document!!.getDouble("remainingFunds")  ?: 0.00)as Double
             Log.d(Constants.TAG, "Total Remaining: $remainingFunds")
             Log.d(Constants.TAG, "Monthly Remaining: $monthlyRemaining")
             view!!.total_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, remainingFunds)//"$$remainingFunds"//context!!.resources!!.getString(R.string.amount_string, remainingFunds)
