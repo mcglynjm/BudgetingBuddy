@@ -12,6 +12,8 @@ class TransactionViewHolder : RecyclerView.ViewHolder {
     var dateView = itemView.date_view
     var nameView = itemView.name_view
     var amountView = itemView.amount_view_history
+    var renewsView = itemView.renews_text_view
+
     constructor(itemView: View, adapter: TransactionAdapter, context: Context?) : super(itemView) {
         this.context = context
         itemView.transaction_card_view.setOnClickListener {
@@ -24,7 +26,14 @@ class TransactionViewHolder : RecyclerView.ViewHolder {
     fun bind(transaction: ManualTransaction) {
         nameView.text = transaction.type
         dateView.text = transaction.date
-        amountView.text = context!!.resources!!.getString(R.string.amount_string, transaction.amount)
-    }
 
+        var amountString = transaction.amount.toString()
+
+
+        amountView.text = context!!.getString(R.string.dollar).plus(amountString)
+
+        if(transaction.renews != Renews.NEVER) {
+            renewsView.text = "RENEWS"
+        }
+    }
 }
