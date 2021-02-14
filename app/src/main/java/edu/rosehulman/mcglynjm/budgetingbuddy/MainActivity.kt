@@ -1,14 +1,20 @@
 package edu.rosehulman.mcglynjm.budgetingbuddy
 
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+
+private val WRITE_EXTERNAL_STORAGE_PERMISSION = 2
+
 
 class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, SplashFragment.OnLoginButtonPressedListener {
     private val auth = FirebaseAuth.getInstance()
@@ -21,6 +27,7 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         // viewFragment(HomeFragment(), getString(R.string.home))
+        checkPermissions()
         initializeListeners()
     }
 
@@ -47,7 +54,7 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
         Log.d(Constants.TAG, "BUTTON $type hit")
         if (type.equals(getString(R.string.scan))) {
             Log.d(Constants.TAG, "Making $type fragment")
-            viewFragment(ScanTransactionFragment(), type)
+            viewFragment(ScanTransactionFragment(auth.currentUser!!.uid), type)
         } else if (type.equals(getString(R.string.manual))) {
             viewFragment(ManualTransactionFragment(auth.currentUser!!.uid), type)
             Log.d(Constants.TAG, "Making $type fragment")
@@ -135,6 +142,44 @@ class MainActivity : AppCompatActivity(), FragmentViewer, TransactionSelect, Spl
     override fun onTransactionSelected(transaction: ManualTransaction) {
         TODO("Not yet implemented")
         //for details in transaction history fragment
+    }
+
+    // Android’s security policy requires permissions to be requested
+    // before some features are used.
+    private fun checkPermissions() {
+        // Check to see if we already have permissions
+        if (ContextCompat
+                .checkSelfPermission(
+                    this,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // If we do not, request them from the user
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                WRITE_EXTERNAL_STORAGE_PERMISSION
+            )
+        }
+    }
+
+    // Callback once permissions are granted.
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        when (requestCode) {
+            WRITE_EXTERNAL_STORAGE_PERMISSION -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    Log.d(Constants.TAG, "Permission granted")
+                } else {
+                    // permission denied
+                }
+                return
+            }
+        }
     }
 }
 

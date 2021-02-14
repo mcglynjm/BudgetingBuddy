@@ -81,4 +81,6 @@
     <string name="categories_collection_reference">categories</string>
     <string name="chart_label">%s , %f</string>
     <string name="dollar">$</string>
+    <string name="choose_category">Choose Category</string>
+
 </resources>
