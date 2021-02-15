@@ -6,7 +6,7 @@ import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
-class ManualTransaction(var amount: Double = 0.toDouble(), var type: String = "", var items: String = "", var renews: Renews = Renews.NEVER, var date: String = "") {
+class ManualTransaction(var amount: Double = 0.toDouble(), var type: String = "", var items: String = "", var renews: Renews = Renews.NEVER, var date: String = "", var hasRenewed: Boolean = true ) {
     @get:Exclude
     var id = ""
     @ServerTimestamp
