@@ -81,6 +81,7 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RC_TAKE_PICTURE -> {
+                    Log.d(Constants.TAG, "sending picture to adapter")
                     sendCameraPhotoToAdapter()
                 }
             }
@@ -108,6 +109,7 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
                 // Create the File where the photo should go
                 Log.d(Constants.TAG, "Creating Photo File")
                 val photoFile: File? = try {
+                    Log.d(Constants.TAG, "Created Photo File")
                     createImageFile()
                 } catch (ex: IOException) {
                     // Error occurred while creating the File
@@ -125,6 +127,7 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, RC_TAKE_PICTURE)
+                    Log.d(Constants.TAG, "End of photoFile.also")
                 }
             }
         }
@@ -133,18 +136,22 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
     // Could save a smaller version to Storage to save time on the network.
     // But if too small, recognition accuracy can suffer.
     inner class ImageRescaleTask(val localPath: String) : AsyncTask<Void, Void, Bitmap>() {
+
         override fun doInBackground(vararg p0: Void?): Bitmap? {
             // Reduces length and width by a factor (currently 2).
+            Log.d(Constants.TAG, "Rescaling (doInBackground())")
             val ratio = 2
             return BitmapUtils.rotateAndScaleByRatio(theContext, localPath, ratio)
         }
 
         override fun onPostExecute(bitmap: Bitmap?) {
+            Log.d(Constants.TAG, "Rescaling (onPostExecute())")
             scanReceipt(bitmap)
         }
     }
 
     private fun scanReceipt(bitmap: Bitmap?) {
+        Log.d(Constants.TAG, "in scanReceipt")
         val image = FirebaseVisionImage.fromBitmap(bitmap!!)
         val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
         detector.processImage(image)
@@ -156,16 +163,21 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
                 //TODO add a dialog here for them to type in the category (maybe items too)
                 var category = ""
                 val builder = AlertDialog.Builder(theContext)
+                builder.setTitle(getString(R.string.choose_type))
                 builder.setItems(toArray(categoryNames, String::class.java))
                 { _, which ->
                     category = categoryNames[which]
+                    Log.d(Constants.TAG, "item $which selected: ${category}")
 
                 }
                 builder.create()
                     .show()
+                
+
                 val current = LocalDateTime.now()
                 val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
                 val formatted = current.format(formatter)
+                Log.d(Constants.TAG, "adding transaction for $total to category $category")
                 val transaction = ManualTransaction(total, category, "", Renews.NEVER, formatted)
                 usersRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
                     var monthlyRemaining =
@@ -187,6 +199,7 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
 
     //https://medium.com/@teresa.wu/googles-ml-kit-text-recognition-with-sample-app-of-receipts-reading-7fe6dc68ada3
     fun String.findFloat(): ArrayList<Float> {
+        Log.d(Constants.TAG, "String.findFloat()")
         //get digits from result
         if (this == null || this.isEmpty()) return ArrayList<Float>()
         val originalResult = ArrayList<Float>()
@@ -201,6 +214,7 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
     private fun String.isFloatAndWhole() = this.matches("\\d*\\.\\d*".toRegex())
 
     fun getTotal(text: String): Double {
+        Log.d(Constants.TAG, "Get total")
         val originalResult = text.findFloat()
         if (originalResult == null || originalResult.isEmpty()) return 0.toDouble()
         else {
@@ -212,6 +226,7 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
+        Log.d(Constants.TAG, "in createImageFile()")
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
         val storageDir: File = activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
@@ -222,17 +237,20 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
             // Save a file: path for use with ACTION_VIEW intents
             receiptPath = absolutePath
         }
+        Log.d(Constants.TAG, "Created temp file")
     }
 
     private fun sendCameraPhotoToAdapter() {
+        Log.d(Constants.TAG, "sendCameraPhotoToAdapter")
         addPhotoToGallery()
         Log.d(Constants.TAG, "Sending to adapter this photo: $receiptPath")
         //adapter.add(receiptPath)
-        ImageRescaleTask(receiptPath)
+        ImageRescaleTask(receiptPath).execute()
     }
 
     // Works Not working on phone
     private fun addPhotoToGallery() {
+        Log.d(Constants.TAG, "addPhotoToGallery")
         Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
             val f = File(receiptPath)
             mediaScanIntent.data = Uri.fromFile(f)
