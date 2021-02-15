@@ -106,6 +106,7 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
             Log.d(Constants.TAG, "Launching Camera")
             takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
                 // Create the File where the photo should go
+                Log.d(Constants.TAG, "Creating Photo File")
                 val photoFile: File? = try {
                     createImageFile()
                 } catch (ex: IOException) {
@@ -116,6 +117,7 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
                 // Continue only if the File was successfully created
                 photoFile?.also {
                     // authority declared in manifest
+                    Log.d(Constants.TAG, "Have File")
                     val photoURI: Uri = FileProvider.getUriForFile(
                         theContext,
                         "edu.rosehulman.mcglynjm.budgetingbuddy",
