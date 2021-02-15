@@ -11,7 +11,6 @@ class ManualTransaction(var amount: Double = 0.toDouble(), var type: String = ""
     var id = ""
     @ServerTimestamp
     var lastTouched: Timestamp? = null
-
     companion object {
         const val LAST_TOUCHED_KEY = "lastTouched"
 

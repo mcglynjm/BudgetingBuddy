@@ -3,14 +3,19 @@ package edu.rosehulman.mcglynjm.budgetingbuddy
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.home_screen.view.*
 import java.lang.RuntimeException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.math.abs
 
 class HomeFragment(var user: FirebaseUser)  : Fragment() {
     lateinit var theContext: Context
@@ -63,10 +68,145 @@ class HomeFragment(var user: FirebaseUser)  : Fragment() {
         return view
     }
 
+    private fun checkRenews() {
+        userRef.collection(Constants.TRANSACTIONS_COLLECTION).whereNotEqualTo("renews", Renews.NEVER).get().addOnSuccessListener { querySnapshot->
+            Log.d(Constants.TAG,"Checking Renews for ${querySnapshot.size()} transactions")
+            for(transaction in querySnapshot.documents) {
+                val transactionObject = ManualTransaction.fromSnapshot(transaction)
+                val current = LocalDateTime.now()
+                val dayFormatter = DateTimeFormatter.ofPattern("dd")
+                val monthFormatter = DateTimeFormatter.ofPattern("MM")
+                val yearFormatter = DateTimeFormatter.ofPattern("yyyy")
+                val dayFormatted = current.format(dayFormatter)
+                val monthFormatted = current.format(monthFormatter)
+                val yearFormatted = current.format(yearFormatter)
+                Log.d(Constants.TAG,"Transsaction date ${transactionObject.amount}")
+                val transactionDay = transactionObject.date.substring(0,2)
+                val transactionMonth = transactionObject.date.substring(3,5)
+                val transactionYear = transactionObject.date.substring(6,10)
+                if(transactionObject.renews == Renews.MONTH_1) {
+                    if(transactionMonth != monthFormatted && transactionYear == yearFormatted) {
+                        transactionObject.renews = Renews.NEVER
+                        val current = LocalDateTime.now()
+                        val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+                        val formatted = current.format(formatter)
+                        transactionObject.date = formatted
+                        userRef.collection(Constants.TRANSACTIONS_COLLECTION).add(transactionObject)
+                        updateFunds(transactionObject.amount)
+                        Log.d(
+                            Constants.TAG,
+                            "Renewed: ${transaction.getDouble("amount")} on category ${
+                                transaction.get("type")
+                            }"
+                        )
+                    }
+                    else if(transactionMonth == monthFormatted && transactionYear != yearFormatted) {
+                        transactionObject.renews = Renews.NEVER
+                        val current = LocalDateTime.now()
+                        val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+                        val formatted = current.format(formatter)
+                        transactionObject.date = formatted
+                        userRef.collection(Constants.TRANSACTIONS_COLLECTION).add(transactionObject)
+                        updateFunds(transactionObject.amount)
+                        Log.d(
+                            Constants.TAG,
+                            "Renewed: ${transaction.getDouble("amount")} on category ${
+                                transaction.get("type")
+                            }"
+                        )
+                    }
+                }
+                else if(transactionObject.renews == Renews.MONTH_3) {
+                    if(abs(monthFormatted.toInt()-transactionMonth.toInt()) %3 == 0) {
+                        transactionObject.renews = Renews.NEVER
+                        val current = LocalDateTime.now()
+                        val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+                        val formatted = current.format(formatter)
+                        transactionObject.date = formatted
+                        userRef.collection(Constants.TRANSACTIONS_COLLECTION).add(transactionObject)
+                        updateFunds(transactionObject.amount)
+                        Log.d(
+                            Constants.TAG,
+                            "Renewed: ${transaction.getDouble("amount")} on category ${
+                                transaction.get("type")
+                            }"
+                        )
+                    }
+                }
+                else if(transactionObject.renews == Renews.MONTH_4) {
+                    if(abs(monthFormatted.toInt()-transactionMonth.toInt()) %4 == 0) {
+                        transactionObject.renews = Renews.NEVER
+                        val current = LocalDateTime.now()
+                        val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+                        val formatted = current.format(formatter)
+                        transactionObject.date = formatted
+                        userRef.collection(Constants.TRANSACTIONS_COLLECTION).add(transactionObject)
+                        updateFunds(transactionObject.amount)
+                        Log.d(
+                            Constants.TAG,
+                            "Renewed: ${transaction.getDouble("amount")} on category ${
+                                transaction.get("type")
+                            }"
+                        )
+                    }
+                }
+                else if(transactionObject.renews == Renews.MONTH_6) {
+                    if(abs(monthFormatted.toInt()-transactionMonth.toInt()) %6 == 0) {
+                        transactionObject.renews = Renews.NEVER
+                        val current = LocalDateTime.now()
+                        val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+                        val formatted = current.format(formatter)
+                        transactionObject.date = formatted
+                        userRef.collection(Constants.TRANSACTIONS_COLLECTION).add(transactionObject)
+                        updateFunds(transactionObject.amount)
+                        Log.d(
+                            Constants.TAG,
+                            "Renewed: ${transaction.getDouble("amount")} on category ${
+                                transaction.get("type")
+                            }"
+                        )
+                    }
+                }
+                else if(transactionObject.renews == Renews.YEAR_1) {
+                    if(transactionMonth == monthFormatted && transactionYear != yearFormatted) {
+                        transactionObject.renews = Renews.NEVER
+                        val current = LocalDateTime.now()
+                        val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+                        val formatted = current.format(formatter)
+                        transactionObject.date = formatted
+                        userRef.collection(Constants.TRANSACTIONS_COLLECTION).add(transactionObject)
+                        updateFunds(transactionObject.amount)
+                        Log.d(
+                            Constants.TAG,
+                            "Renewed: ${transaction.getDouble("amount")} on category ${
+                                transaction.get("type")
+                            }"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun updateFunds(amount: Double) {
+        userRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
+            //var monthlyRemaining = (snapshot["monthlyRemaining"] ?: "") as Float
+            var monthlyRemaining = (snapshot.getDouble("monthlyRemaining") ?: 0.00) as Double
+            var totalRemaining = (snapshot.getDouble("remainingFunds") ?: 0.00) as Double
+            Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
+            monthlyRemaining -= amount
+            totalRemaining -= amount
+            Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
+            userRef.update("monthlyRemaining", monthlyRemaining)
+            userRef.update("remainingFunds", totalRemaining)
+        }
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is FragmentViewer) {
             theContext = context
+            checkRenews()
         }
         else {
             throw RuntimeException(context.toString() + " must implement FragmentViewer")
