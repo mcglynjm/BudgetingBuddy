@@ -68,6 +68,32 @@ class HomeFragment(var user: FirebaseUser)  : Fragment() {
         return view
     }
 
+    private fun renewBudget() {
+        userRef.collection(Constants.CATEGORIES_COLLECTION).whereEqualTo("enabled", true).get().addOnSuccessListener { querySnaphot ->
+            val current = LocalDateTime.now()
+            val dayFormatter = DateTimeFormatter.ofPattern("dd")
+            if(dayFormatter.equals("01")) {
+                var total = 0.toDouble()
+                for(category in querySnaphot.documents) {
+                    total+=  (category.getDouble("monthlyRemaining") ?: 0.00)
+                }
+                resetBudget(total)
+            }
+        }
+    }
+
+    private fun resetBudget(total: Double) {
+        userRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
+            //var monthlyRemaining = (snapshot["monthlyRemaining"] ?: "") as Float
+            var monthlyRemaining = (snapshot.getDouble("monthlyRemaining") ?: 0.00) as Double
+            var totalRemaining = (snapshot.getDouble("remainingFunds") ?: 0.00) as Double
+            Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
+            monthlyRemaining += total
+            Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
+            userRef.update("monthlyRemaining", monthlyRemaining)
+        }
+    }
+
     private fun checkRenews() {
         userRef.collection(Constants.TRANSACTIONS_COLLECTION).whereNotEqualTo("renews", Renews.NEVER).get().addOnSuccessListener { querySnapshot->
             Log.d(Constants.TAG,"Checking Renews for ${querySnapshot.size()} transactions")
@@ -250,6 +276,7 @@ class HomeFragment(var user: FirebaseUser)  : Fragment() {
         super.onAttach(context)
         if (context is FragmentViewer) {
             theContext = context
+            renewBudget()
             checkRenews()
         }
         else {
