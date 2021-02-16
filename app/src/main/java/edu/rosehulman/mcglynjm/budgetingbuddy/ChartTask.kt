@@ -18,7 +18,7 @@ import kotlin.collections.ArrayList
 class ChartTask {
     fun execute(view: View, usersRef: DocumentReference, context: Context) : View{
         var pieDataArray = ArrayList<SliceValue>()
-        var categoryTask =  usersRef.collection(Constants.CATEGORIES_COLLECTION)
+        var categoryTask =  usersRef.collection(Constants.CATEGORIES_COLLECTION).whereEqualTo("enabled", true)
             .get()
             .addOnSuccessListener { categories ->
                 for (category in categories.documents!!) {

@@ -83,5 +83,7 @@
     <string name="dollar">$</string>
     <string name="choose_category">Choose Category</string>
     <string name="choose_type">Choose transaction category</string>
+    <string-array name="category_array">
 
+        </string-array>
 </resources>
