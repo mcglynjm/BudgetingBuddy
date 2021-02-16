@@ -60,11 +60,11 @@ class HomeFragment(var user: FirebaseUser)  : Fragment() {
             dialog.show()
         }
         view.home_budget_history_button.setOnClickListener {fragmentViewer.onButtonHit(context!!.getString(R.string.history))}
-        view.home_user_settings_button.setOnClickListener {fragmentViewer.onButtonHit(context!!.getString(R.string.settings))}
 
         view.pie_chart_image_view.setOnClickListener {
             fragmentViewer.onButtonHit(context!!.getString(R.string.summary))
         }
+        view.pie_chart_image_view.setImageResource(R.drawable.chart_image)
         return view
     }
 
