@@ -218,7 +218,7 @@ class SummaryFragment(var uid: String) : Fragment() {
 
             this.monthlyRemaining =  Math.round((document!!.getDouble("monthlyRemaining") ?: 0.00)*100.0)/100.0 as Double
             this.remainingFunds =  Math.round((document!!.getDouble("remainingFunds")  ?: 0.00)*100.0) /100.0 as Double
-                
+
             Log.d(Constants.TAG, "Total Remaining: $remainingFunds")
             Log.d(Constants.TAG, "Monthly Remaining: $monthlyRemaining")
             view!!.total_balance_remaining_number.setText(getString(R.string.dollar_sign).plus(remainingFunds.toString()))//"$$remainingFunds"//context!!.resources!!.getString(R.string.amount_string, remainingFunds)

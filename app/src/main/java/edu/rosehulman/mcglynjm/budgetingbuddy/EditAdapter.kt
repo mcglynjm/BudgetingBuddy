@@ -20,6 +20,9 @@ class EditAdapter(var context: Context, var uid: String) : RecyclerView.Adapter<
     private val categoriesRef = userRef
         .collection(Constants.CATEGORIES_COLLECTION)
 
+    private val transactionsRef = userRef
+        .collection(Constants.TRANSACTIONS_COLLECTION)
+
     private lateinit var listenerRegistration: ListenerRegistration
 
     fun addSnapshotListener() {
@@ -133,9 +136,18 @@ class EditAdapter(var context: Context, var uid: String) : RecyclerView.Adapter<
     private fun edit(position: Int, name: String, amount: Double) {
         val budgetCategory  =  categories[position]
         val amountChange = amount - budgetCategory.amount
+        val oldName = budgetCategory.name
         budgetCategory.name = name
         budgetCategory.amount = amount
         categoriesRef.document(categories[position].id).set(categories[position])
+
+        transactionsRef.whereEqualTo("type", oldName).get()
+            .addOnSuccessListener{documents ->
+                for (document in documents){
+                    transactionsRef.document(document.id).update("type", name)
+                }
+            }
+
 
         userRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
             var monthlyRemaining = (snapshot.getDouble("monthlyRemaining")  ?: 0.00)as Double
