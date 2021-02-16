@@ -21,7 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import kotlinx.android.synthetic.main.scan_transaction.view.cancel_button
+//import kotlinx.android.synthetic.main.scan_transaction.view.cancel_button
 import kotlinx.android.synthetic.main.scan_transaction.view.*
 import java.io.File
 import java.io.IOException
@@ -58,9 +58,9 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
         val fragmentViewer = context as FragmentViewer
         val view = inflater.inflate(R.layout.scan_transaction, container, false)
 
-        view.cancel_button.setOnClickListener { fragmentViewer.onButtonHit(context!!.getString(R.string.home)) }
+        //view.cancel_button.setOnClickListener { fragmentViewer.onButtonHit(context!!.getString(R.string.home)) }
 
-        view.scan_transaction_text_view.setOnClickListener {
+        view.scan_transaction_button.setOnClickListener {
             showScanDialog()
         }
 
@@ -161,36 +161,39 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
                 var items = ArrayList<String>()
                 total += getTotal(result.text)
                 //TODO add a dialog here for them to type in the category (maybe items too)
-                var category = ""
-                val builder = AlertDialog.Builder(theContext)
-                builder.setTitle(getString(R.string.choose_type))
-                builder.setItems(toArray(categoryNames, String::class.java))
-                { _, which ->
-                    category = categoryNames[which]
-                    Log.d(Constants.TAG, "item $which selected: ${category}")
-
-                }
-                builder.create()
-                    .show()
-                
 
                 val current = LocalDateTime.now()
                 val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
                 val formatted = current.format(formatter)
-                Log.d(Constants.TAG, "adding transaction for $total to category $category")
-                val transaction = ManualTransaction(total, category, "", Renews.NEVER, formatted)
-                usersRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
-                    var monthlyRemaining =
-                        (snapshot.getDouble("monthlyRemaining") ?: 0.00) as Double
-                    var totalRemaining = (snapshot.getDouble("remainingFunds") ?: 0.00) as Double
-                    Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
-                    monthlyRemaining -= transaction.amount
-                    totalRemaining -= transaction.amount
-                    Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
-                    usersRef.update("monthlyRemaining", monthlyRemaining)
-                    usersRef.update("remainingFunds", totalRemaining)
+                //val transaction = ManualTransaction(total, category, "", Renews.NEVER, formatted)
+
+                //transactionsRef.add(transaction)
+
+                val builder = AlertDialog.Builder(theContext)
+                builder.setTitle(getString(R.string.choose_type))
+                builder.setItems(toArray(categoryNames, String::class.java))
+                { _, which ->
+                    //transactionsRef.document(transaction.id).set(categoryNames[which])
+                    val category = categoryNames[which]
+                    val transaction = ManualTransaction(total, category, "", Renews.NEVER, formatted)
+                    transactionsRef.add(transaction)
+                    Log.d(Constants.TAG, "item $which selected: ${category}")
+
+                    usersRef.get().addOnSuccessListener { snapshot: DocumentSnapshot ->
+                        var monthlyRemaining =
+                            (snapshot.getDouble("monthlyRemaining") ?: 0.00) as Double
+                        var totalRemaining = (snapshot.getDouble("remainingFunds") ?: 0.00) as Double
+                        Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
+                        monthlyRemaining -= total
+                        totalRemaining -= total
+                        Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
+                        usersRef.update("monthlyRemaining", monthlyRemaining)
+                        usersRef.update("remainingFunds", totalRemaining)
+                    }
+
                 }
-                transactionsRef.add(transaction)
+                builder.create()
+                    .show()
             }
             .addOnFailureListener { e ->
                 Log.d(Constants.TAG, "Failure recognizing text ")

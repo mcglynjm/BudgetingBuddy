@@ -52,7 +52,7 @@
     <string name="home">home</string>
     <string name="edit">edit</string>
     <string name="summary">summary</string>
-    <string name="input_scan_transaction">Center receipt in box to scan</string>
+    <string name="input_scan_transaction">Take Picture</string>
     <string name="preview">Preview Transaction</string>
     <string name="subtotal">Subtotal</string>
     <string name="tax">Tax</string>
