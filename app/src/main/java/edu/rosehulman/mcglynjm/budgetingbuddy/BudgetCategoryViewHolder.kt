@@ -31,7 +31,8 @@ class BudgetCategoryViewHolder : RecyclerView.ViewHolder {
         fun bind(category: BudgetCategory) {
             toggleBox.isChecked = category.enabled
             nameView.text = category.name
-            amountView.text = "$${category.amount}"
+            var amount = Math.round(category.amount* 100.0) / 100.0
+            amountView.text = context?.getString(R.string.dollar_sign).plus(amount)
 
             toggleBox.setOnClickListener {
                 adapter.changeEnabled(adapterPosition, toggleBox.isChecked)

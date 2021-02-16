@@ -56,9 +56,19 @@
         android:layout_below="@id/monthly_text_view"
     />
 
+<!--    <Button-->
+<!--        android:id="@+id/summary_trends_button"-->
+<!--        android:text="@string/overspending_breakdowns_and_trends"-->
+<!--        style="@style/LongButton"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@id/chart_view"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        />-->
+
     <Button
-        android:id="@+id/summary_trends_button"
-        android:text="@string/overspending_breakdowns_and_trends"
+        android:id="@+id/summary_history_button"
+        android:text="@string/review_spending_history"
         style="@style/LongButton"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/chart_view"
@@ -66,23 +76,13 @@
         android:layout_marginBottom="5dp"
         />
 
-    <Button
-        android:id="@+id/summary_history_button"
-        android:text="@string/review_spending_history"
-        style="@style/LongButton"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/summary_trends_button"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        />
-
-    <Button
-        android:id="@+id/summary_edit_button"
-        android:text="@string/edit_budget"
-        style="@style/LongButton"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/summary_history_button"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        />
+<!--    <Button-->
+<!--        android:id="@+id/summary_edit_button"-->
+<!--        android:text="@string/edit_budget"-->
+<!--        style="@style/LongButton"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@id/summary_history_button"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        />-->
 </RelativeLayout>

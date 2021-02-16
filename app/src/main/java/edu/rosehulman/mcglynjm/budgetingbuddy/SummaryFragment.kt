@@ -45,17 +45,17 @@ class SummaryFragment(var uid: String) : Fragment() {
         val fragmentViewer = context as FragmentViewer
         val view = inflater.inflate(R.layout.budget_summary, container, false)
 
-        view.summary_trends_button.setOnClickListener{
-            //fragmentViewer.viewFragment(TrendsFragment())
-        }
+//        view.summary_trends_button.setOnClickListener{
+//            //fragmentViewer.viewFragment(TrendsFragment())
+//        }
 
         view.summary_history_button.setOnClickListener{
             fragmentViewer.onButtonHit(context!!.getString(R.string.history))
         }
 
-        view.summary_edit_button.setOnClickListener{
-            fragmentViewer.onButtonHit(context!!.getString(R.string.edit))
-        }
+//        view.summary_edit_button.setOnClickListener{
+//            fragmentViewer.onButtonHit(context!!.getString(R.string.edit))
+//        }
         setHasOptionsMenu(true)
 
 //        this.getInitValues()
@@ -116,8 +116,11 @@ class SummaryFragment(var uid: String) : Fragment() {
         builder.setPositiveButton(android.R.string.ok){_,_ ->
 
 
-            val totalAmount = ("0" + view.total_amount_edit_text.text.toString()).toDouble()
-            val monthlyAmount = ("0" + view.monthly_amount_edit_text.text.toString()).toDouble()
+            var totalAmount = ("0" + view.total_amount_edit_text.text.toString()).toDouble()
+            var monthlyAmount = ("0" + view.monthly_amount_edit_text.text.toString()).toDouble()
+
+            totalAmount = Math.round(totalAmount*100.0) / 100.0
+            monthlyAmount = Math.round(monthlyAmount*100.0) / 100.0
 
             Log.d(Constants.TAG, "adding  $$totalAmount to the total and $$monthlyAmount monthly")
 
@@ -131,8 +134,10 @@ class SummaryFragment(var uid: String) : Fragment() {
 
                 Log.d(Constants.TAG, "monthlyRemaining: $monthlyRemaining")
                 usersRef.set(mapOf("monthlyRemaining" to oldMonthlyRemaining, "remainingFunds" to oldRemainingFunds), merge())
+
+                getInitValues()
             }
-            //getInitValues()
+
         }
         builder.setNegativeButton(android.R.string.cancel, null)
 
@@ -209,13 +214,15 @@ class SummaryFragment(var uid: String) : Fragment() {
 
     fun getInitValues() {
             usersRef.get().addOnSuccessListener {  document ->
-            this.monthlyBudget = (document!!.getDouble("monthlyBudget")  ?: 0.00)as Double
-            this.monthlyRemaining = (document!!.getDouble("monthlyRemaining") ?: 0.00) as Double
-            this.remainingFunds = (document!!.getDouble("remainingFunds")  ?: 0.00)as Double
+            this.monthlyBudget = Math.round((document!!.getDouble("monthlyBudget")  ?: 0.00)*100.0)/100.0 as Double
+
+            this.monthlyRemaining =  Math.round((document!!.getDouble("monthlyRemaining") ?: 0.00)*100.0)/100.0 as Double
+            this.remainingFunds =  Math.round((document!!.getDouble("remainingFunds")  ?: 0.00)*100.0) /100.0 as Double
+                
             Log.d(Constants.TAG, "Total Remaining: $remainingFunds")
             Log.d(Constants.TAG, "Monthly Remaining: $monthlyRemaining")
-            view!!.total_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, remainingFunds)//"$$remainingFunds"//context!!.resources!!.getString(R.string.amount_string, remainingFunds)
-            view!!.monthly_balance_remaining_number.text = context!!.resources!!.getString(R.string.amount_string, monthlyRemaining)//"$$monthlyRemaining"
+            view!!.total_balance_remaining_number.setText(getString(R.string.dollar_sign).plus(remainingFunds.toString()))//"$$remainingFunds"//context!!.resources!!.getString(R.string.amount_string, remainingFunds)
+            view!!.monthly_balance_remaining_number.setText(getString(R.string.dollar_sign).plus(monthlyRemaining.toString()))//"$$monthlyRemaining"
             if(this.remainingFunds!! > 0) {
                 view!!.total_balance_remaining_number.setTextColor(context!!.resources.getColor(R.color.green))
             }

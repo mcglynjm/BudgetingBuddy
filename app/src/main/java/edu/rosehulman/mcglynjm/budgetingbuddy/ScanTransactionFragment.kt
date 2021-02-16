@@ -160,6 +160,7 @@ class ScanTransactionFragment(var uid: String)  : Fragment() {
                 var total = 0.toDouble()
                 var items = ArrayList<String>()
                 total += getTotal(result.text)
+                total =  Math.round(total* 100.0) / 100.0
                 //TODO add a dialog here for them to type in the category (maybe items too)
 
                 val current = LocalDateTime.now()
